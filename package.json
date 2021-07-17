@@ -4,7 +4,7 @@
     "name": "kei-g"
   },
   "bin": {
-    "emojify": "bin/emojify.js"
+    "emojify": "./bin/emojify.js"
   },
   "bugs": {
     "url": "https://github.com/kei-g/emojify-js/issues"
@@ -23,7 +23,8 @@
     "node": ">=15.0.0"
   },
   "files": [
-    "dist"
+    "assets",
+    "bin"
   ],
   "homepage": "https://github.com/kei-g/emojify-js",
   "keywords": [
@@ -58,9 +59,10 @@
   },
   "scripts": {
     "build": "npm run lint && tsc && utils/post-build.sh",
-    "clean": "rm -fr build/ dist/",
+    "clean": "rm -fr assets/ && mkdir assets && ln -s node-emoji/lib/emoji.json assets/",
+    "distclean": "npm run clean && rm -fr bin/ build/",
     "lint": "eslint *.ts",
-    "prepack": "cp node-emoji/lib/emoji.json dist/assets/",
+    "postpublish": "npm run clean",
     "prepublishOnly": "npm run build",
     "start": "ts-node emojify.ts"
   },

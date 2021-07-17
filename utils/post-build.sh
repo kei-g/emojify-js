@@ -1,15 +1,19 @@
 #!/bin/sh
 
-[ -d dist/assets ] || mkdir -p dist/assets || exit 1
-[ -d dist/bin ] || mkdir -p dist/bin || exit 1
+rm -fr assets || exit 1
 
-cp node-emoji/lib/emoji.json dist/assets || exit 1
-
-cd build && find . -type f | while read name; do
-  dest=../dist/bin/$name
-  echo '#!/usr/bin/env node' > $dest \
-    && npx terser $name -c -m --toplevel >> $dest \
-    && chmod +x $dest \
-    && continue
+fail() {
+  rm -fr assets
+  ln -s node-emoji/lib/emoji.json assets/
   exit 1
-done
+}
+
+mkdir assets && cp node-emoji/lib/emoji.json assets/ || fail
+
+[ -d bin ] || { mkdir -p bin || fail; }
+
+dest=bin/emojify.js \
+  && echo '#!/usr/bin/env node' > $dest \
+  && npx terser build/emojify.js -c -m --toplevel >> $dest \
+  && chmod +x $dest \
+  || fail
