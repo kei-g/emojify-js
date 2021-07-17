@@ -1,18 +1,18 @@
 {
-	"compilerOptions": {
+  "compilerOptions": {
     "charset": "utf8",
     "downlevelIteration": true,
-		"lib": [ "ESNext" ],
+    "lib": [ "ESNext" ],
     "module": "CommonJS",
-		"moduleResolution": "node",
+    "moduleResolution": "node",
     "newLine": "lf",
     "outDir": "build",
     "pretty": true,
     "removeComments": true,
     "strict": true,
     "strictNullChecks": false,
-		"target": "ES3",
-	},
+    "target": "ES3",
+  },
   "files": [
     "emojify.ts",
   ],
