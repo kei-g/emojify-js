@@ -47,23 +47,28 @@ const assetPath = `${__dirname}/${source}`
 const path = fs.lstatSync(assetPath).isSymbolicLink
   ? fs.readlinkSync(assetPath)
   : `../${source}`
-fs.readFile(`${__dirname}/${path}`, {}, (err: NodeJS.ErrnoException, data: Buffer) => {
-  if (err) {
-    console.error(err.message)
-    process.exit(1)
-  }
-  const dictionary = JSON.parse(data.toString('utf8')) as Record<string, string>
-  fs.readFile('/dev/stdin', {}, (err: NodeJS.ErrnoException, data: Buffer) => {
+fs.readFile(`${__dirname}/${path}`, {},
+  (err: NodeJS.ErrnoException, data: Buffer) => {
     if (err) {
       console.error(err.message)
       process.exit(1)
     }
-    context.value = data.toString(context.charset)
-    for (const name in dictionary) {
-      const re = new RegExp(`\\:${name}\\:`, 'g')
-      const code = dictionary[name]
-      context.value = context.value.replaceAll(re, code)
-    }
-    fs.writeFile('/dev/stdout', Buffer.from(context.value), {}, () => process.exit(0))
+    const json = data.toString('utf8')
+    const dictionary = JSON.parse(json) as Record<string, string>
+    fs.readFile('/dev/stdin', {},
+      (err: NodeJS.ErrnoException, data: Buffer) => {
+        if (err) {
+          console.error(err.message)
+          process.exit(1)
+        }
+        context.value = data.toString(context.charset)
+        for (const name in dictionary) {
+          const re = new RegExp(`\\:${name}\\:`, 'g')
+          const code = dictionary[name]
+          context.value = context.value.replaceAll(re, code)
+        }
+        fs.writeFile('/dev/stdout', Buffer.from(context.value), {}, () =>
+          process.exit(0)
+        )
+      })
   })
-})
