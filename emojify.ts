@@ -42,9 +42,11 @@ for (; context.index < process.argv.length; context.index++) {
   }
 }
 
-const path = /\/ts-node$/.test(process.argv[0])
-  ? fs.readlinkSync(`${__dirname}/assets/emoji.json`)
-  : '../assets/emoji.json'
+const source = 'assets/emoji.json'
+const assetPath = `${__dirname}/${source}`
+const path = fs.lstatSync(assetPath).isSymbolicLink
+  ? fs.readlinkSync(assetPath)
+  : `../${source}`
 fs.readFile(`${__dirname}/${path}`, {}, (err: NodeJS.ErrnoException, data: Buffer) => {
   if (err) {
     console.error(err.message)
