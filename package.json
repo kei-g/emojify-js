@@ -1,0 +1,68 @@
+{
+  "author": {
+    "email": "km.8k6ce+github@gmail.com",
+    "name": "kei-g"
+  },
+  "bin": {
+    "emojify": "bin/emojify.js"
+  },
+  "bugs": {
+    "url": "https://github.com/kei-g/emojify-js/issues"
+  },
+  "description": "Text formatter for `:emoji:` style",
+  "devDependencies": {
+    "@types/node": "^16.3.3",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "eslint": "^7.30.0",
+    "terser": "^5.7.1",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  },
+  "engines": {
+    "node": ">=15.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/kei-g/emojify-js",
+  "keywords": [
+    "convert",
+    "converter",
+    "emoji",
+    "emojify",
+    "emojifier",
+    "emojis",
+    "emoticon",
+    "format",
+    "formatter",
+    "ideogram",
+    "ideograms",
+    "text",
+    "text-convert",
+    "text-converter",
+    "text-format",
+    "text-formatter",
+    "utility",
+    "utilities"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "bin/emojify.js",
+  "name": "@kei-g/emojify",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kei-g/emojify-js.git"
+  },
+  "scripts": {
+    "build": "npm run lint && tsc && ./post-build.sh",
+    "clean": "rm -fr build/ dist/",
+    "lint": "eslint *.ts",
+    "prepack": "cp node-emoji/lib/emoji.json dist/assets/",
+    "prepublishOnly": "npm run build",
+    "start": "ts-node emojify.ts"
+  },
+  "version": "1.0.0"
+}

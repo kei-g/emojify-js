@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+    "charset": "utf8",
+    "downlevelIteration": true,
+		"lib": [ "ESNext" ],
+    "module": "CommonJS",
+		"moduleResolution": "node",
+    "newLine": "lf",
+    "outDir": "build",
+    "pretty": true,
+    "removeComments": true,
+    "strict": true,
+    "strictNullChecks": false,
+		"target": "ES3",
+	},
+  "files": [
+    "emojify.ts",
+  ],
+}
