@@ -17,7 +17,6 @@ const supportedEncodings = [
 const context = {
   charset: 'utf8' as BufferEncoding,
   index: 0,
-  value: '',
 }
 
 for (; context.index < process.argv.length; context.index++) {
@@ -44,31 +43,40 @@ for (; context.index < process.argv.length; context.index++) {
 
 const source = 'assets/emoji.json'
 const assetPath = `${__dirname}/${source}`
-const path = fs.lstatSync(assetPath).isSymbolicLink
-  ? fs.readlinkSync(assetPath)
-  : `../${source}`
-fs.readFile(`${__dirname}/${path}`, {},
-  (err: NodeJS.ErrnoException, data: Buffer) => {
-    if (err) {
-      console.error(err.message)
-      process.exit(1)
-    }
-    const json = data.toString('utf8')
-    const dictionary = JSON.parse(json) as Record<string, string>
-    fs.readFile('/dev/stdin', {},
-      (err: NodeJS.ErrnoException, data: Buffer) => {
-        if (err) {
-          console.error(err.message)
-          process.exit(1)
-        }
-        context.value = data.toString(context.charset)
-        for (const name in dictionary) {
-          const re = new RegExp(`\\:${name}\\:`, 'g')
-          const code = dictionary[name]
-          context.value = context.value.replaceAll(re, code)
-        }
-        fs.writeFile('/dev/stdout', Buffer.from(context.value), {}, () =>
-          process.exit(0)
-        )
+fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
+  const path = err ? `../${source}` : stats.isSymbolicLink
+    ? fs.readlinkSync(assetPath)
+    : `../${source}`
+  fs.readFile(`${__dirname}/${path}`, {},
+    (err: NodeJS.ErrnoException, data: Buffer) => {
+      if (err) {
+        console.error(err.message)
+        process.exit(1)
+      }
+      const json = data.toString('utf8')
+      const dictionary = JSON.parse(json) as Record<string, string>
+      const list = [] as { code: string, re: RegExp }[]
+      for (const name in dictionary)
+        list.push({
+          code: dictionary[name],
+          re: new RegExp(`\\:${name}\\:`, 'g'),
+        })
+      process.stdin.on('data', (buffer: Buffer) => {
+        let text = buffer.toString(context.charset)
+        for (const item of list)
+          text = text.replaceAll(item.re, item.code)
+        process.stdout.cork()
+        process.stdout.write(text)
+        process.stdout.uncork()
       })
-  })
+      process.stdin.on('close', (hadError: boolean) =>
+        process.exit(hadError ? 1 : 0)
+      )
+      process.stdin.on('end', () =>
+        process.exit(0)
+      )
+      process.stdin.on('error', (err: Error) =>
+        process.stderr.write(err?.message ?? '')
+      )
+    })
+})
