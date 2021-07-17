@@ -11,9 +11,12 @@ npm i @kei-g/emojify -g
 ## Usage
 
 ```shell
-git commit -m ":tada: Initial commit" && git log | emojify
+git commit -m ":tada: Initial commit" && git log --color | emojify
 ```
 
 ## TODO
 
-- colorful input (not supported yet)
+- features
+  - behave as pager
+  - customizable dictionary of emojis
+- test
