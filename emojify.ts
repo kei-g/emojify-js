@@ -138,7 +138,7 @@ for (; context.index < process.argv.length; context.index++) {
 const source = 'assets/emoji.json'
 const assetPath = `${__dirname}/${source}`
 fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
-  const path = err ? `../${source}` : stats.isSymbolicLink
+  const path = err ? `../${source}` : stats.isSymbolicLink()
     ? fs.readlinkSync(assetPath)
     : `../${source}`
   fs.readFile(`${__dirname}/${path}`, {},
