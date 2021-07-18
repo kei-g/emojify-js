@@ -17,6 +17,7 @@ const supportedEncodings = [
 const context = {
   charset: 'utf8' as BufferEncoding,
   index: 0,
+  operation: null as null | 'list'
 }
 
 for (; context.index < process.argv.length; context.index++) {
@@ -38,6 +39,10 @@ for (; context.index < process.argv.length; context.index++) {
         process.exit(1)
       }
       break
+    case '-l':
+    case '--list':
+      context.operation = 'list'
+      break
   }
 }
 
@@ -55,6 +60,11 @@ fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
       }
       const json = data.toString('utf8')
       const dictionary = JSON.parse(json) as Record<string, string>
+      if (context.operation === 'list') {
+        for (const name in dictionary)
+          process.stdout.write(`${dictionary[name]}=:${name}:\n`)
+        process.exit(0)
+      }
       const list = [] as { code: string, re: RegExp }[]
       for (const name in dictionary)
         list.push({
