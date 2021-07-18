@@ -12,13 +12,26 @@ npm i @kei-g/emojify -g
 
 ## Usage
 
+Simple use,
+
 ```shell
 git commit -m ":tada: Initial commit" && git log --color | emojify
+```
+
+To show available emojis list,
+
+```shell
+emojify -l
+```
+
+To use emojify as a pager for git, this case for a user;
+
+```shell
+git config --global core.pager "sh -c 'emojify | less -R'"
 ```
 
 ## TODO
 
 - features
-  - behave as pager
   - customizable dictionary of emojis
 - test
