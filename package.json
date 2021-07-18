@@ -64,7 +64,8 @@
     "lint": "eslint *.ts",
     "postpublish": "npm run clean",
     "prepublishOnly": "npm run build",
-    "start": "ts-node emojify.ts"
+    "start": "ts-node emojify.ts",
+    "test": "tada=$(echo :tada: | npx ts-node emojify.ts) || exit 2 && [ \"$tada\" = \"🎉\" ]"
   },
   "version": "1.0.0"
 }
