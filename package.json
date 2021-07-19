@@ -67,5 +67,5 @@
     "start": "ts-node emojify.ts",
     "test": "tada=$(echo :tada: | npx ts-node emojify.ts) || exit 2 && [ \"$tada\" = \"🎉\" ]"
   },
-  "version": "1.1.1"
+  "version": "1.1.2"
 }
