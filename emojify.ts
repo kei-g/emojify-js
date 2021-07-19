@@ -132,6 +132,11 @@ for (; context.index < process.argv.length; context.index++) {
     case '--list':
       context.operation = 'list'
       break
+    case '-V':
+    case '--verbose':
+      for (const name in process.versions)
+        process.stdout.write(`${name}: ${process.versions[name]}\n`)
+      break
   }
 }
 
