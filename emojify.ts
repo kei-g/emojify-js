@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 
 function buildDictionaryFrom(data: Buffer): Record<string, Buffer> {
-  const context = {} as {
+  const ctx = {} as {
     index?: number,
     name?: string,
     prev?: number,
@@ -12,54 +12,56 @@ function buildDictionaryFrom(data: Buffer): Record<string, Buffer> {
       const c = data[i]
       switch (c) {
         case CLOSE_BRACE:
-          if (context.name || context.prev !== DOUBLE_QUOTE)
+          if (ctx.name || ctx.prev !== DOUBLE_QUOTE)
             throw `Invalid close brace at ${i}`
           return dict
         case COLON:
-          if (context.index || !context.name || context.prev !== DOUBLE_QUOTE)
+          if (ctx.index || !ctx.name || ctx.prev !== DOUBLE_QUOTE)
             throw `Invalid colon at ${i}`
           break
         case COMMA:
-          if (context.index || context.name || context.prev !== DOUBLE_QUOTE)
+          if (ctx.index || ctx.name || ctx.prev !== DOUBLE_QUOTE)
             throw `Invalid comma at ${i}`
           break
         case DOUBLE_QUOTE:
-          switch (context.prev) {
+          switch (ctx.prev) {
             case CLOSE_BRACE:
             case DOUBLE_QUOTE:
               throw `Invalid double quote at ${i}`
             case COLON:
-              if (context.index || !context.name)
+              if (ctx.index || !ctx.name)
                 throw `Invalid double quote at ${i}`
-              context.index = i + 1
+              ctx.index = i + 1
               break
             case COMMA:
             case OPEN_BRACE:
-              if (context.index || context.name)
+              if (ctx.index || ctx.name)
                 throw `Invalid double quote at ${i}`
-              context.index = i + 1
+              ctx.index = i + 1
               break
             default:
-              if (!context.index)
+              if (!ctx.index)
                 throw `Invalid double quote at ${i}`
-              if (context.name) {
-                dict[context.name] = data.subarray(context.index, i)
-                delete context.name
+              if (ctx.name) {
+                dict[ctx.name] = context.sliceOf(data, ctx.index, i)
+                delete ctx.name
               }
-              else
-                context.name = data.subarray(context.index, i).toString()
-              delete context.index
+              else {
+                const buf = context.sliceOf(data, ctx.index, i)
+                ctx.name = buf.toString()
+              }
+              delete ctx.index
               break
           }
           break
         case OPEN_BRACE:
-          if (context.index || context.name || context.prev)
+          if (ctx.index || ctx.name || ctx.prev)
             throw `Invalid open brace at ${i}`
           break
         default:
           break
       }
-      context.prev = c
+      ctx.prev = c
     }
     process.stderr.write('\u001b[31mNo close brace found\u001b[m\n')
   }
@@ -69,21 +71,30 @@ function buildDictionaryFrom(data: Buffer): Record<string, Buffer> {
   return dict
 }
 
+function createSlicedBuffer(data: Buffer, begin?: number, end?: number): Buffer {
+  const offset = begin ?? 0
+  const length = (end ?? data.byteLength) - offset
+  const buf = Buffer.alloc(length)
+  for (let i = 0; i < length; i++)
+    buf[i] = data[offset + i]
+  return buf
+}
+
 function emojify(data: Buffer, dict: Record<string, Buffer>): void {
-  const context = {} as { index?: number, preserved?: true }
+  const ctx = {} as { index?: number, preserved?: true }
   const flush = (end?: number) => {
-    if (context.preserved) {
-      delete context.preserved
-      process.stdout.write(data.subarray(context.index, end))
+    if (ctx.preserved) {
+      delete ctx.preserved
+      process.stdout.write(context.sliceOf(data, ctx.index, end))
     }
-    delete context.index
+    delete ctx.index
   }
   for (let i = 0; i < data.byteLength; i++)
     if (data[i] === COLON) {
       for (let j = i + 1; j < data.byteLength; j++) {
         const c = data[j]
         if (c === COLON) {
-          const name = data.subarray(i + 1, j).toString()
+          const name = context.sliceOf(data, i + 1, j).toString()
           const code = dict[name]
           process.stdout.cork()
           flush(i)
@@ -97,8 +108,8 @@ function emojify(data: Buffer, dict: Record<string, Buffer>): void {
           break
       }
     }
-    else if (!context.preserved)
-      [context.index, context.preserved] = [i, true]
+    else if (!ctx.preserved)
+      [ctx.index, ctx.preserved] = [i, true]
   flush()
 }
 
@@ -122,12 +133,17 @@ const UNDERSCORE = '_'.codePointAt(0)
 
 const context = {
   index: 0,
-  operation: null as null | 'list'
+  operation: null as null | 'list',
+  sliceOf: (data: Buffer, begin?: number, end?: number) =>
+    data.subarray(begin, end),
 }
 
 for (; context.index < process.argv.length; context.index++) {
   const argv = process.argv[context.index]
   switch (argv) {
+    case '--avoid-subarray':
+      context.sliceOf = createSlicedBuffer
+      break
     case '-l':
     case '--list':
       context.operation = 'list'
