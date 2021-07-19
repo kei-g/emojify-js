@@ -91,7 +91,7 @@ function emojify(data: Buffer, dict: Record<string, Buffer>): void {
           process.stdout.uncork()
           i = j
         }
-        else if (isNumAlphaOr(c, HYPHEN, UNDERSCORE))
+        else if (isNumAlphaOr(c, [HYPHEN, UNDERSCORE]))
           continue
         else
           break
@@ -102,7 +102,7 @@ function emojify(data: Buffer, dict: Record<string, Buffer>): void {
   flush()
 }
 
-function isNumAlphaOr(c: number, ...or: number[]): boolean {
+function isNumAlphaOr(c: number, or: number[]): boolean {
   if (0x30 <= c && c <= 0x39)
     return true
   if (0x41 <= c && c <= 0x5a)
