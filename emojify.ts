@@ -108,8 +108,10 @@ function emojify(data: Buffer, dict: Record<string, Buffer>): void {
           break
       }
     }
-    else if (!ctx.preserved)
-      [ctx.index, ctx.preserved] = [i, true]
+    else if (!ctx.preserved) {
+      ctx.index = i
+      ctx.preserved = true
+    }
   flush()
 }
 
