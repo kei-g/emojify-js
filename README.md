@@ -41,7 +41,7 @@ git log --color | emojify
 To configure `git` to use `emojify` as pager; for example, on :penguin: linux,
 
 ```shell
-git config --global core.pager "sh -c 'emojify | less -R'"
+git config --global core.pager 'emojify | less -R'
 ```
 
 ## TODO
