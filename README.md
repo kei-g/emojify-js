@@ -12,19 +12,33 @@ npm i @kei-g/emojify -g
 
 ## Usage
 
-Simple use,
+To format emojis simply,
 
 ```shell
-git commit -m ":tada: Initial commit" && git log --color | emojify
+echo :star: Hello world :tada: | emojify
 ```
 
-To show available emojis list,
+and to see available emojis list,
 
 ```shell
 emojify -l
 ```
 
-To use emojify as a pager for git, this case for a user;
+### emojify with git
+
+To see emojified git logs,
+
+```shell
+mkdir play-with-emojify
+cd play-with-emojify
+git init
+touch .gitkeep
+git add .
+git commit -m ":tada: Initial commit"
+git log --color | emojify
+```
+
+To configure `git` to use `emojify` as pager; for example, on :penguin: linux,
 
 ```shell
 git config --global core.pager "sh -c 'emojify | less -R'"
@@ -34,4 +48,6 @@ git config --global core.pager "sh -c 'emojify | less -R'"
 
 - features
   - customizable dictionary of emojis
-- test
+- quality
+  - coverage
+  - more test cases
