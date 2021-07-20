@@ -12,13 +12,13 @@ npm i @kei-g/emojify -g
 
 ## Usage
 
-To format emojis simply,
+To format emojis simply, then you'll see :star: Hello world :tada:,
 
 ```shell
 echo :star: Hello world :tada: | emojify
 ```
 
-and to see available emojis list,
+And to see available emojis list,
 
 ```shell
 emojify -l
