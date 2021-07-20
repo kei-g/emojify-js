@@ -71,7 +71,7 @@
     "postpublish": "npm run clean",
     "prepublishOnly": "npm run build",
     "start": "ts-node emojify.ts",
-    "test": "npm run lint && npm run cover && tada=$(echo :tada: | npx ts-node emojify.ts) || exit 2 && [ \"$tada\" = \"🎉\" ]"
+    "test": "npm run lint && npm run cover"
   },
   "version": "1.0.0"
 }

@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import { Writable } from 'stream'
 
-function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Record<string, Buffer> {
+export function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Record<string, Buffer> {
   const ctx = {} as {
     index?: number,
     name?: string,
@@ -80,7 +80,7 @@ type EmojifyContext = {
   sliceOf: (data: Buffer, begin?: number, end?: number) => Buffer,
 }
 
-function createContext(argv: string[]): EmojifyContext {
+export function createContext(argv: string[]): EmojifyContext {
   const context = {
     allocBuffer: (length: number) => Buffer.alloc(length),
     includes: <T>(array: T[], elem: T) => array.includes(elem),
@@ -131,7 +131,7 @@ type EmojifyParameters = {
   dictionary: Record<string, Buffer>,
 }
 
-function emojify(param: EmojifyParameters): void {
+export function emojify(param: EmojifyParameters): void {
   const ctx = {} as { index?: number, preserved?: true }
   const flush = (end?: number) => {
     if (ctx.preserved) {
@@ -189,9 +189,9 @@ function isNumAlphaOr(context: EmojifyContext, c: number, or: number[]): boolean
 
 type LoadAssetsCallback = (err: LoadAssetsError, data: Buffer) => void
 
-type LoadAssetsError = NodeJS.ErrnoException | null
+export type LoadAssetsError = NodeJS.ErrnoException | null
 
-function loadAssets(cb: LoadAssetsCallback): void {
+export function loadAssets(cb: LoadAssetsCallback): void {
   const source = 'assets/emoji.json'
   const assetPath = `${__dirname}/${source}`
   fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
