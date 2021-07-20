@@ -226,6 +226,10 @@ const reportError = (err?: string | Uint8Array | Error | unknown) => {
   }
 }
 
+process.stderr.on('errpor', () => process.exit(1))
+process.stdin.on('error', reportError)
+process.stdout.on('error', reportError)
+
 loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
   if (err) {
     reportError(err)
@@ -249,5 +253,4 @@ loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
   process.stdin.on('end', () =>
     process.exit(0)
   )
-  process.stdin.on('error', reportError)
 })
