@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import { Writable } from 'stream'
 
 function buildDictionaryFrom(data: Buffer): Record<string, Buffer> {
   const ctx = {} as {
@@ -80,27 +81,33 @@ function createSlicedBuffer(data: Buffer, begin?: number, end?: number): Buffer 
   return buf
 }
 
-function emojify(data: Buffer, dict: Record<string, Buffer>): void {
+type EmojifyParameters = {
+  data: Buffer,
+  destination: Writable,
+  dictionary: Record<string, Buffer>,
+}
+
+function emojify(param: EmojifyParameters): void {
   const ctx = {} as { index?: number, preserved?: true }
   const flush = (end?: number) => {
     if (ctx.preserved) {
       delete ctx.preserved
-      process.stdout.write(context.sliceOf(data, ctx.index, end))
+      param.destination.write(context.sliceOf(param.data, ctx.index, end))
     }
     delete ctx.index
   }
   try {
-    for (let i = 0; i < data.byteLength; i++)
-      if (data[i] === COLON) {
-        for (let j = i + 1; j < data.byteLength; j++) {
-          const c = data[j]
+    for (let i = 0; i < param.data.byteLength; i++)
+      if (param.data[i] === COLON) {
+        for (let j = i + 1; j < param.data.byteLength; j++) {
+          const c = param.data[j]
           if (c === COLON) {
-            const name = context.sliceOf(data, i + 1, j).toString()
-            const code = dict[name]
-            process.stdout.cork()
+            const name = context.sliceOf(param.data, i + 1, j).toString()
+            const code = param.dictionary[name]
+            param.destination.cork()
             flush(i)
-            process.stdout.write(code ?? `:${name}:`)
-            process.stdout.uncork()
+            param.destination.write(code ?? `:${name}:`)
+            param.destination.uncork()
             i = j
           }
           else if (isNumAlphaOr(c, [HYPHEN, UNDERSCORE]))
@@ -134,6 +141,21 @@ function isNumAlphaOr(c: number, or: number[]): boolean {
   if (0x61 <= c && c <= 0x7a)
     return true
   return context.includes(or, c)
+}
+
+type LoadAssetsCallback = (err: LoadAssetsError, data: Buffer) => void
+
+type LoadAssetsError = NodeJS.ErrnoException | null
+
+function loadAssets(cb: LoadAssetsCallback): void {
+  const source = 'assets/emoji.json'
+  const assetPath = `${__dirname}/${source}`
+  fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
+    const path = err ? `../${source}` : stats.isSymbolicLink()
+      ? fs.readlinkSync(assetPath)
+      : `../${source}`
+    fs.readFile(`${__dirname}/${path}`, {}, cb)
+  })
 }
 
 const CLOSE_BRACE = '}'.codePointAt(0)
@@ -194,33 +216,27 @@ for (; context.index < process.argv.length; context.index++) {
   }
 }
 
-const source = 'assets/emoji.json'
-const assetPath = `${__dirname}/${source}`
-fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
-  const path = err ? `../${source}` : stats.isSymbolicLink()
-    ? fs.readlinkSync(assetPath)
-    : `../${source}`
-  fs.readFile(`${__dirname}/${path}`, {},
-    (err: NodeJS.ErrnoException, data: Buffer) => {
-      if (err) {
-        reportError(err)
-        process.exit(1)
-      }
-      const dict = buildDictionaryFrom(data)
-      if (context.operation === 'list') {
-        for (const name in dict) {
-          process.stdout.write(dict[name], reportError)
-          process.stdout.write(`\t:${name}:\n`, reportError)
-        }
-        process.exit(0)
-      }
-      process.stdin.on('data', (data: Buffer) => emojify(data, dict))
-      process.stdin.on('close', (hadError: boolean) =>
-        process.exit(hadError ? 1 : 0)
-      )
-      process.stdin.on('end', () =>
-        process.exit(0)
-      )
-      process.stdin.on('error', reportError)
-    })
+loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
+  if (err) {
+    reportError(err)
+    process.exit(1)
+  }
+  const dict = buildDictionaryFrom(data)
+  if (context.operation === 'list') {
+    for (const name in dict) {
+      process.stdout.write(dict[name], reportError)
+      process.stdout.write(`\t:${name}:\n`, reportError)
+    }
+    process.exit(0)
+  }
+  process.stdin.on('data', (data: Buffer) =>
+    emojify({ data, destination: process.stdout, dictionary: dict })
+  )
+  process.stdin.on('close', (hadError: boolean) =>
+    process.exit(hadError ? 1 : 0)
+  )
+  process.stdin.on('end', () =>
+    process.exit(0)
+  )
+  process.stdin.on('error', reportError)
 })
