@@ -135,7 +135,7 @@ const UNDERSCORE = '_'.codePointAt(0)
 
 const context = {
   allocBuffer: (length: number) => Buffer.alloc(length),
-  includes: <T> (array: T[], elem: T) => array.includes(elem),
+  includes: <T>(array: T[], elem: T) => array.includes(elem),
   index: 0,
   operation: null as null | 'list',
   sliceOf: (data: Buffer, begin?: number, end?: number) =>
@@ -149,7 +149,7 @@ for (; context.index < process.argv.length; context.index++) {
       context.allocBuffer = (length: number) => new Buffer(length)
       break
     case '--avoid-includes':
-      context.includes = <T> (array: T[], elem: T) =>
+      context.includes = <T>(array: T[], elem: T) =>
         array.some((value: T) => value === elem)
       break
     case '--avoid-subarray':
