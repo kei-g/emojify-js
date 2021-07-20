@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import { Writable } from 'stream'
 
-function buildDictionaryFrom(data: Buffer): Record<string, Buffer> {
+function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Record<string, Buffer> {
   const ctx = {} as {
     index?: number,
     name?: string,
@@ -72,7 +72,50 @@ function buildDictionaryFrom(data: Buffer): Record<string, Buffer> {
   return dict
 }
 
-function createSlicedBuffer(data: Buffer, begin?: number, end?: number): Buffer {
+type EmojifyContext = {
+  allocBuffer: (length: number) => Buffer,
+  includes: <T>(array: T[], elem: T) => boolean,
+  index: number,
+  operation: null | 'list',
+  sliceOf: (data: Buffer, begin?: number, end?: number) => Buffer,
+}
+
+function createContext(argv: string[]): EmojifyContext {
+  const context = {
+    allocBuffer: (length: number) => Buffer.alloc(length),
+    includes: <T>(array: T[], elem: T) => array.includes(elem),
+    index: 0,
+    operation: null as null | 'list',
+    sliceOf: (data: Buffer, begin?: number, end?: number) =>
+      data.subarray(begin, end),
+  }
+  for (; context.index < argv.length; context.index++)
+    switch (argv[context.index]) {
+      case '--avoid-buffer-alloc':
+        context.allocBuffer = (length: number) => new Buffer(length)
+        break
+      case '--avoid-includes':
+        context.includes = <T>(array: T[], elem: T) =>
+          array.some((value: T) => value === elem)
+        break
+      case '--avoid-subarray':
+        context.sliceOf = (data: Buffer, begin?: number, end?: number) =>
+          createSlicedBuffer(context, data, begin, end)
+        break
+      case '-l':
+      case '--list':
+        context.operation = 'list'
+        break
+      case '-V':
+      case '--verbose':
+        for (const name in process.versions)
+          process.stdout.write(`${name}: ${process.versions[name]}\n`)
+        break
+    }
+  return context
+}
+
+function createSlicedBuffer(context: EmojifyContext, data: Buffer, begin?: number, end?: number): Buffer {
   const offset = begin ?? 0
   const length = (end ?? data.byteLength) - offset
   const buf = context.allocBuffer(length)
@@ -82,6 +125,7 @@ function createSlicedBuffer(data: Buffer, begin?: number, end?: number): Buffer 
 }
 
 type EmojifyParameters = {
+  context: EmojifyContext,
   data: Buffer,
   destination: Writable,
   dictionary: Record<string, Buffer>,
@@ -92,7 +136,7 @@ function emojify(param: EmojifyParameters): void {
   const flush = (end?: number) => {
     if (ctx.preserved) {
       delete ctx.preserved
-      param.destination.write(context.sliceOf(param.data, ctx.index, end))
+      param.destination.write(param.context.sliceOf(param.data, ctx.index, end))
     }
     delete ctx.index
   }
@@ -102,7 +146,7 @@ function emojify(param: EmojifyParameters): void {
         for (let j = i + 1; j < param.data.byteLength; j++) {
           const c = param.data[j]
           if (c === COLON) {
-            const name = context.sliceOf(param.data, i + 1, j).toString()
+            const name = param.context.sliceOf(param.data, i + 1, j).toString()
             const code = param.dictionary[name]
             param.destination.cork()
             flush(i)
@@ -110,7 +154,7 @@ function emojify(param: EmojifyParameters): void {
             param.destination.uncork()
             i = j
           }
-          else if (isNumAlphaOr(c, [HYPHEN, UNDERSCORE]))
+          else if (isNumAlphaOr(param.context, c, [HYPHEN, UNDERSCORE]))
             continue
           else
             break
@@ -133,7 +177,7 @@ function emojify(param: EmojifyParameters): void {
   }
 }
 
-function isNumAlphaOr(c: number, or: number[]): boolean {
+function isNumAlphaOr(context: EmojifyContext, c: number, or: number[]): boolean {
   if (0x30 <= c && c <= 0x39)
     return true
   if (0x41 <= c && c <= 0x5a)
@@ -166,15 +210,6 @@ const HYPHEN = '-'.codePointAt(0)
 const OPEN_BRACE = '{'.codePointAt(0)
 const UNDERSCORE = '_'.codePointAt(0)
 
-const context = {
-  allocBuffer: (length: number) => Buffer.alloc(length),
-  includes: <T>(array: T[], elem: T) => array.includes(elem),
-  index: 0,
-  operation: null as null | 'list',
-  sliceOf: (data: Buffer, begin?: number, end?: number) =>
-    data.subarray(begin, end),
-}
-
 const reportError = (err?: string | Uint8Array | Error | unknown) => {
   if (!err)
     return
@@ -191,37 +226,13 @@ const reportError = (err?: string | Uint8Array | Error | unknown) => {
   }
 }
 
-for (; context.index < process.argv.length; context.index++) {
-  const argv = process.argv[context.index]
-  switch (argv) {
-    case '--avoid-buffer-alloc':
-      context.allocBuffer = (length: number) => new Buffer(length)
-      break
-    case '--avoid-includes':
-      context.includes = <T>(array: T[], elem: T) =>
-        array.some((value: T) => value === elem)
-      break
-    case '--avoid-subarray':
-      context.sliceOf = createSlicedBuffer
-      break
-    case '-l':
-    case '--list':
-      context.operation = 'list'
-      break
-    case '-V':
-    case '--verbose':
-      for (const name in process.versions)
-        process.stdout.write(`${name}: ${process.versions[name]}\n`)
-      break
-  }
-}
-
 loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
   if (err) {
     reportError(err)
     process.exit(1)
   }
-  const dict = buildDictionaryFrom(data)
+  const context = createContext(process.argv)
+  const dict = buildDictionaryFrom(context, data)
   if (context.operation === 'list') {
     for (const name in dict) {
       process.stdout.write(dict[name], reportError)
@@ -230,7 +241,7 @@ loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
     process.exit(0)
   }
   process.stdin.on('data', (data: Buffer) =>
-    emojify({ data, destination: process.stdout, dictionary: dict })
+    emojify({ context, data, destination: process.stdout, dictionary: dict })
   )
   process.stdin.on('close', (hadError: boolean) =>
     process.exit(hadError ? 1 : 0)
