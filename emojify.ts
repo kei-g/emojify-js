@@ -74,7 +74,7 @@ function buildDictionaryFrom(data: Buffer): Record<string, Buffer> {
 function createSlicedBuffer(data: Buffer, begin?: number, end?: number): Buffer {
   const offset = begin ?? 0
   const length = (end ?? data.byteLength) - offset
-  const buf = Buffer.alloc(length)
+  const buf = context.allocBuffer(length)
   for (let i = 0; i < length; i++)
     buf[i] = data[offset + i]
   return buf
@@ -134,6 +134,7 @@ const OPEN_BRACE = '{'.codePointAt(0)
 const UNDERSCORE = '_'.codePointAt(0)
 
 const context = {
+  allocBuffer: (length: number) => Buffer.alloc(length),
   includes: <T> (array: T[], elem: T) => array.includes(elem),
   index: 0,
   operation: null as null | 'list',
@@ -144,6 +145,9 @@ const context = {
 for (; context.index < process.argv.length; context.index++) {
   const argv = process.argv[context.index]
   switch (argv) {
+    case '--avoid-buffer-alloc':
+      context.allocBuffer = (length: number) => new Buffer(length)
+      break
     case '--avoid-includes':
       context.includes = <T> (array: T[], elem: T) =>
         array.some((value: T) => value === elem)
