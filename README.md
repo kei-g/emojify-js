@@ -48,6 +48,7 @@ git config --global core.pager 'emojify | less -R'
 
 - features
   - customizable dictionary of emojis
+  - provide a method for escaped colons
 - quality
   - coverage
-  - more test cases
+    - failure cases of parsing emojis' dictionary
