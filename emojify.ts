@@ -89,30 +89,41 @@ function emojify(data: Buffer, dict: Record<string, Buffer>): void {
     }
     delete ctx.index
   }
-  for (let i = 0; i < data.byteLength; i++)
-    if (data[i] === COLON) {
-      for (let j = i + 1; j < data.byteLength; j++) {
-        const c = data[j]
-        if (c === COLON) {
-          const name = context.sliceOf(data, i + 1, j).toString()
-          const code = dict[name]
-          process.stdout.cork()
-          flush(i)
-          process.stdout.write(code ?? `:${name}:`)
-          process.stdout.uncork()
-          i = j
+  try {
+    for (let i = 0; i < data.byteLength; i++)
+      if (data[i] === COLON) {
+        for (let j = i + 1; j < data.byteLength; j++) {
+          const c = data[j]
+          if (c === COLON) {
+            const name = context.sliceOf(data, i + 1, j).toString()
+            const code = dict[name]
+            process.stdout.cork()
+            flush(i)
+            process.stdout.write(code ?? `:${name}:`)
+            process.stdout.uncork()
+            i = j
+          }
+          else if (isNumAlphaOr(c, [HYPHEN, UNDERSCORE]))
+            continue
+          else
+            break
         }
-        else if (isNumAlphaOr(c, [HYPHEN, UNDERSCORE]))
-          continue
-        else
-          break
       }
+      else if (!ctx.preserved) {
+        ctx.index = i
+        ctx.preserved = true
+      }
+    flush()
+  }
+  catch (err: unknown) {
+    try {
+      if (typeof err === 'string' || err instanceof Uint8Array)
+        process.stderr.write(err)
     }
-    else if (!ctx.preserved) {
-      ctx.index = i
-      ctx.preserved = true
+    catch (err: unknown) {
+      process.exit(1)
     }
-  flush()
+  }
 }
 
 function isNumAlphaOr(c: number, or: number[]): boolean {
@@ -140,6 +151,22 @@ const context = {
   operation: null as null | 'list',
   sliceOf: (data: Buffer, begin?: number, end?: number) =>
     data.subarray(begin, end),
+}
+
+const reportError = (err?: string | Uint8Array | Error | unknown) => {
+  if (!err)
+    return
+  try {
+    if (typeof err === 'string' || err instanceof Uint8Array)
+      process.stderr.write(err)
+    else if (err instanceof Error && err.message)
+      process.stderr.write(err.message)
+    else
+      console.error(err)
+  }
+  catch (err: unknown) {
+    process.exit(1)
+  }
 }
 
 for (; context.index < process.argv.length; context.index++) {
@@ -176,14 +203,14 @@ fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
   fs.readFile(`${__dirname}/${path}`, {},
     (err: NodeJS.ErrnoException, data: Buffer) => {
       if (err) {
-        console.error(err.message)
+        reportError(err)
         process.exit(1)
       }
       const dict = buildDictionaryFrom(data)
       if (context.operation === 'list') {
         for (const name in dict) {
-          process.stdout.write(dict[name])
-          process.stdout.write(`\t:${name}:\n`)
+          process.stdout.write(dict[name], reportError)
+          process.stdout.write(`\t:${name}:\n`, reportError)
         }
         process.exit(0)
       }
@@ -194,8 +221,6 @@ fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
       process.stdin.on('end', () =>
         process.exit(0)
       )
-      process.stdin.on('error', (err: Error) =>
-        process.stderr.write(err?.message ?? '')
-      )
+      process.stdin.on('error', reportError)
     })
 })
