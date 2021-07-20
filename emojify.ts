@@ -122,7 +122,7 @@ function isNumAlphaOr(c: number, or: number[]): boolean {
     return true
   if (0x61 <= c && c <= 0x7a)
     return true
-  return or.includes(c)
+  return context.includes(or, c)
 }
 
 const CLOSE_BRACE = '}'.codePointAt(0)
@@ -134,6 +134,7 @@ const OPEN_BRACE = '{'.codePointAt(0)
 const UNDERSCORE = '_'.codePointAt(0)
 
 const context = {
+  includes: <T> (array: T[], elem: T) => array.includes(elem),
   index: 0,
   operation: null as null | 'list',
   sliceOf: (data: Buffer, begin?: number, end?: number) =>
@@ -143,6 +144,10 @@ const context = {
 for (; context.index < process.argv.length; context.index++) {
   const argv = process.argv[context.index]
   switch (argv) {
+    case '--avoid-includes':
+      context.includes = <T> (array: T[], elem: T) =>
+        array.some((value: T) => value === elem)
+      break
     case '--avoid-subarray':
       context.sliceOf = createSlicedBuffer
       break
