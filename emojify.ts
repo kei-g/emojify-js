@@ -210,7 +210,7 @@ const HYPHEN = '-'.codePointAt(0)
 const OPEN_BRACE = '{'.codePointAt(0)
 const UNDERSCORE = '_'.codePointAt(0)
 
-const reportError = (err?: string | Uint8Array | Error | unknown) => {
+const reportError = (err?: unknown) => {
   if (!err)
     return
   try {
