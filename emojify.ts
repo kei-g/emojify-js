@@ -210,14 +210,21 @@ const HYPHEN = '-'.codePointAt(0)
 const OPEN_BRACE = '{'.codePointAt(0)
 const UNDERSCORE = '_'.codePointAt(0)
 
-const reportError = (err?: string | Uint8Array | Error | unknown) => {
+const reportError = (err?: unknown) => {
   if (!err)
     return
   try {
-    if (typeof err === 'string' || err instanceof Uint8Array)
-      process.stderr.write(err)
-    else if (err instanceof Error && err.message)
-      process.stderr.write(err.message)
+    const msg = typeof err === 'string'
+      ? err
+      : err instanceof Buffer
+        ? err.toString()
+        : err instanceof Error && err.message
+          ? err.message
+          : err instanceof Uint8Array
+            ? Buffer.from(err).toString()
+            : null
+    if (msg && typeof msg === 'string')
+      process.stderr.write(`\u001b[31m${msg}\u001b[m\n`)
     else
       console.error(err)
   }
@@ -225,6 +232,10 @@ const reportError = (err?: string | Uint8Array | Error | unknown) => {
     process.exit(1)
   }
 }
+
+process.stderr.on('errpor', () => process.exit(1))
+process.stdin.on('error', reportError)
+process.stdout.on('error', reportError)
 
 loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
   if (err) {
@@ -249,5 +260,4 @@ loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
   process.stdin.on('end', () =>
     process.exit(0)
   )
-  process.stdin.on('error', reportError)
 })

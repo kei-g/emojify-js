@@ -17,56 +17,80 @@ const options = [
   ['--avoid-buffer-alloc', '--avoid-includes', '--avoid-subarray']
 ]
 
-for (const argv of options) {
-  const context = createContext(argv)
-  const dict = {} as Record<string, Buffer>
-  describe(`Asset ${argv.join(', ')}`, () =>
-    it('Is loadable?', () =>
-      loadAssets((err: LoadAssetsError, data: Buffer) => {
-        if (err)
-          expect.fail(err.message)
-        const d = buildDictionaryFrom(context, data)
-        for (const name in d) {
-          if (dict[name])
-            expect.fail(`Duplicate key, ${name}`)
-          const code = d[name]
-          if (code instanceof Buffer)
-            dict[name] = code
-          else
-            expect.fail(`Invalid data, ${code} for ${name}`)
-        }
+describe('Wrapper for', () =>
+  it('loadAssets', (complete: () => void) =>
+    loadAssets((err: LoadAssetsError, data: Buffer) => {
+      describe('Can load assets', () => {
+        it('Has no error?', () => expect(err).is.null)
+        it('Is data instance of Buffer?', () =>
+          expect(data).instanceOf(Buffer)
+        )
       })
-    )
+      for (const argv of options) {
+        const title = 'Test with' + (argv.length
+          ? ' options, ' + argv.join(', ')
+          : 'out options')
+        describe(title, () => {
+          const context = createContext(argv)
+          const dict = buildDictionaryFrom(context, data)
+          it('Is tada contained in dictionary?', () =>
+            expect(dict['tada']).instanceOf(Buffer)
+          )
+          it('Is ":tada:" able to be emojified?', (done: () => void) => {
+            emojify({
+              context,
+              data: Buffer.from(':tada:'),
+              destination: new Transform({
+                transform(chunk: unknown) {
+                  expect(chunk).instanceOf(Buffer)
+                  expect(chunk.toString()).equals('🎉')
+                }
+              }),
+              dictionary: dict,
+            })
+            done()
+          })
+          it('Is "Not-Emoji" not contained in dictionary?', () =>
+            expect(dict['Not-Emoji']).is.undefined
+          )
+          it('Is empty string not contained in dictionary?', () =>
+            expect(dict['']).is.undefined
+          )
+          it('Are ":Not-Emoji:" and "::" omitted?', (done: () => void) => {
+            const text = 'Dictionary doesn\'t contain :Not-Emoji: and ::'
+            emojify({
+              context,
+              data: Buffer.from(text),
+              destination: new Transform({
+                transform(chunk: unknown) {
+                  expect(chunk).instanceOf(Buffer)
+                  expect(chunk.toString()).equals(text)
+                }
+              }),
+              dictionary: dict,
+            })
+            done()
+          })
+          it('Is "100" contained in dictionary?', () =>
+            expect(dict['100']).instanceOf(Buffer)
+          )
+          it('Is ":100:" able to be emojified?', (done: () => void) => {
+            emojify({
+              context,
+              data: Buffer.from(':100:'),
+              destination: new Transform({
+                transform(chunk: unknown) {
+                  expect(chunk).instanceOf(Buffer)
+                  expect(chunk.toString()).equals('💯')
+                }
+              }),
+              dictionary: dict,
+            })
+            done()
+          })
+        })
+      }
+      complete()
+    })
   )
-  describe(`Can emojify single :tada: ${argv.join(', ')}`, () => {
-    const emojified = [] as unknown[]
-    emojify({
-      context,
-      data: Buffer.from(':tada:'),
-      destination: new Transform({
-        transform(chunk: unknown) {
-          emojified.push(chunk)
-        }
-      }),
-      dictionary: dict,
-    })
-    it('Correct?', () => expect(emojified[0].toString() === '🎉'))
-  })
-  describe(`Can omit :Not-Emoji: and ::, but :100: ${argv.join(', ')}`,
-    () => {
-      const emojified = [] as unknown[]
-      emojify({
-        context,
-        data: Buffer.from(`Dictionary doesn't contain :Not-Emoji: and ::
-but :100:\n`),
-        destination: new Transform({
-          transform(chunk: unknown) {
-            emojified.push(chunk)
-          }
-        }),
-        dictionary: dict,
-      })
-      it('Correct?', () => expect(emojified[0].toString() ===
-        'Dictionary doesn\'t contains :Not-Emoji: and ::\nbut 💯'))
-    })
-}
+)

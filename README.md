@@ -12,13 +12,13 @@ npm i @kei-g/emojify -g
 
 ## Usage
 
-To format emojis simply,
+To format emojis simply, then you'll see :star: Hello world :tada:,
 
 ```shell
 echo :star: Hello world :tada: | emojify
 ```
 
-and to see available emojis list,
+And to see available emojis list,
 
 ```shell
 emojify -l
@@ -41,13 +41,14 @@ git log --color | emojify
 To configure `git` to use `emojify` as pager; for example, on :penguin: linux,
 
 ```shell
-git config --global core.pager "sh -c 'emojify | less -R'"
+git config --global core.pager 'emojify | less -R'
 ```
 
 ## TODO
 
 - features
   - customizable dictionary of emojis
+  - provide a method for escaped colons
 - quality
   - coverage
-  - more test cases
+    - failure cases of parsing emojis' dictionary
