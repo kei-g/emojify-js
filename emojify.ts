@@ -75,7 +75,6 @@ export function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Reco
 
 type EmojifyContext = {
   allocBuffer: (length: number) => Buffer,
-  includes: <T>(array: T[], elem: T) => boolean,
   index: number,
   operation: null | 'list',
   sliceOf: (data: Buffer, begin?: number, end?: number) => Buffer,
@@ -84,7 +83,6 @@ type EmojifyContext = {
 export function createContext(argv: string[]): EmojifyContext {
   const context = {
     allocBuffer: (length: number) => Buffer.alloc(length),
-    includes: <T>(array: T[], elem: T) => array.includes(elem),
     index: 0,
     operation: null as null | 'list',
     sliceOf: (data: Buffer, begin?: number, end?: number) =>
@@ -94,10 +92,6 @@ export function createContext(argv: string[]): EmojifyContext {
     switch (argv[context.index]) {
       case '--avoid-buffer-alloc':
         context.allocBuffer = (length: number) => new Buffer(length)
-        break
-      case '--avoid-includes':
-        context.includes = <T>(array: T[], elem: T) =>
-          array.some((value: T) => value === elem)
         break
       case '--avoid-subarray':
         context.sliceOf = (data: Buffer, begin?: number, end?: number) =>
@@ -155,7 +149,7 @@ export function emojify(param: EmojifyParameters): void {
             param.destination.uncork()
             i = j
           }
-          else if (isNumAlphaOr(param.context, c, [HYPHEN, PLUS, UNDERSCORE]))
+          else if (isAppropriateCharAsNameOfEmoji(c))
             continue
           else
             break
@@ -178,12 +172,9 @@ export function emojify(param: EmojifyParameters): void {
   }
 }
 
-function isNumAlphaOr(context: EmojifyContext, c: number, or: number[]): boolean {
-  if (0x30 <= c && c <= 0x39)
-    return true
-  if (0x61 <= c && c <= 0x7a)
-    return true
-  return context.includes(or, c)
+function isAppropriateCharAsNameOfEmoji(c: number): boolean {
+  return 0x30 <= c && c <= 0x39 || 0x61 <= c && c <= 0x7a
+    || c === HYPHEN || c === PLUS || c === UNDERSCORE
 }
 
 type LoadAssetsCallback = (err: LoadAssetsError, data: Buffer) => void

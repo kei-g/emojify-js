@@ -4,17 +4,14 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 
 const options = [
-  // for Node.js v6.4.0 or later
+  // for Node.js v6.0.0 or later
   [],
 
-  // for Node.js v6.0.0 or later
-  ['--avoid-includes'],
-
   // for Node.js v4.5.0 or later v4.x, v5.10.0 or later
-  ['--avoid-includes', '--avoid-subarray'],
+  ['--avoid-subarray'],
 
   // for Node.js v4.0.0 or later
-  ['--avoid-buffer-alloc', '--avoid-includes', '--avoid-subarray']
+  ['--avoid-buffer-alloc', '--avoid-subarray']
 ]
 
 describe('Wrapper for', () =>
