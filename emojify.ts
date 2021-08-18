@@ -181,8 +181,6 @@ export function emojify(param: EmojifyParameters): void {
 function isNumAlphaOr(context: EmojifyContext, c: number, or: number[]): boolean {
   if (0x30 <= c && c <= 0x39)
     return true
-  if (0x41 <= c && c <= 0x5a)
-    return true
   if (0x61 <= c && c <= 0x7a)
     return true
   return context.includes(or, c)
