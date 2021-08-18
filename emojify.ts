@@ -67,7 +67,7 @@ export function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Reco
     }
     process.stderr.write('\u001b[31mNo close brace found\u001b[m\n')
   }
-  catch (error) {
+  catch (error: unknown) {
     process.stderr.write(`\u001b[31m${error}\u001b[m\n`)
   }
   return dict
