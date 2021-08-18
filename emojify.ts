@@ -44,12 +44,13 @@ export function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Reco
               if (!ctx.index)
                 throw `Invalid double quote at ${i}`
               if (ctx.name) {
-                dict[ctx.name] = context.sliceOf(data, ctx.index, i)
+                const code = context.sliceOf(data, ctx.index, i)
+                dict[ctx.name] = code
                 delete ctx.name
               }
               else {
-                const buf = context.sliceOf(data, ctx.index, i)
-                ctx.name = buf.toString()
+                const name = context.sliceOf(data, ctx.index, i)
+                ctx.name = name.toString()
               }
               delete ctx.index
               break
