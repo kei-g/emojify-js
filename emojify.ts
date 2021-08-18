@@ -155,7 +155,7 @@ export function emojify(param: EmojifyParameters): void {
             param.destination.uncork()
             i = j
           }
-          else if (isNumAlphaOr(param.context, c, [HYPHEN, UNDERSCORE]))
+          else if (isNumAlphaOr(param.context, c, [HYPHEN, PLUS, UNDERSCORE]))
             continue
           else
             break
@@ -209,6 +209,7 @@ const COMMA = ','.codePointAt(0)
 const DOUBLE_QUOTE = '"'.codePointAt(0)
 const HYPHEN = '-'.codePointAt(0)
 const OPEN_BRACE = '{'.codePointAt(0)
+const PLUS = '+'.codePointAt(0)
 const UNDERSCORE = '_'.codePointAt(0)
 
 const reportError = (err?: unknown) => {
