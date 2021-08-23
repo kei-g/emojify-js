@@ -27,10 +27,6 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "files": [
-    "assets",
-    "bin"
-  ],
   "homepage": "https://github.com/kei-g/emojify-js",
   "keywords": [
     "convert",
