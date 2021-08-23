@@ -13,7 +13,6 @@ mkdir assets && cp node-emoji/lib/emoji.json assets/ || fail
 [ -d bin ] || { mkdir -p bin || fail; }
 
 dest=bin/emojify.js \
-  && echo '#!/usr/bin/env node' > $dest \
-  && npx terser build/emojify.js -c -m --toplevel >> $dest \
+  && npx terser build/emojify.js -c -m -o $dest --toplevel \
   && chmod +x $dest \
   || fail
