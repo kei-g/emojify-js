@@ -224,7 +224,7 @@ const reportError = (err?: unknown) => {
   }
 }
 
-process.stderr.on('errpor', () => process.exit(0))
+process.stderr.on('error', () => process.exit(0))
 process.stdin.on('error', () => process.exit(0))
 process.stdout.on('error', () => process.exit(0))
 
