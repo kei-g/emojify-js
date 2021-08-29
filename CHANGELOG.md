@@ -8,20 +8,29 @@
 - :green_heart: .travis.yml is updated
   - ~/.npm directory is cached
   - Release tags are excepted
+- :memo: Badges are relocated
 - :memo: CHANGELOG.md is added
 - :memo: CODE_OF_CONDUCT.md is added
 - :zap: Capitalized alphabets are omitted as name of emojis
 - :arrow_up: Dependent packages for development are updated
-  - `@types/mocha` is upgraded from 8.2.3 to 9.0.0
-  - `@types/node` is upgraded from 16.4.0 to 16.6.1
-  - `@typescript-eslint/eslint-plugin` is upgraded from 4.28.4 to 4.29.2
-  - `@typescript-eslint/parser` is upgraded from 4.28.4 to 4.29.2
+  - `@types/mocha` is upgraded from 8.2.3 to 9.1.1
+  - `@types/node` is upgraded from 16.4.0 to 16.7.5
+  - `@typescript-eslint/eslint-plugin` is upgraded from 4.28.4 to 4.29.3
+  - `@typescript-eslint/parser` is upgraded from 4.28.4 to 4.29.3
   - `eslint` is upgraded from 7.31.0 to 7.32.0
-  - `mocha` is upgraded from 9.0.2 to 9.0.3
-  - `ts-node` is upgraded from 10.1.0 to 10.2.0
+  - `mocha` is upgraded from 9.0.2 to 9.1.1
+  - `ts-node` is upgraded from 10.1.0 to 10.2.1
+  - `typescript` is upgraded from 4.3.5 to 4.4.2
+- :heavy_plus_sign: New Dependent packages from development are added
+  - `rimraf` is added
+  - `uuid` is added
 - :page_facing_up: LICENSE is updated
   - Copyright year is corrected
 - :bug: Make it possible to accept plus-sign as name of emojis
+- :green_heart: Node.js v15.x is removed from targets for Travis CI
+- :mute: Redundant error messages after stdin/stdout has been closed are suppressed
+- :green_heart: Target branches are limited only to 'main' for Travis CI
+- :pencil2: Typo on catching error from stderr is corrected
 - :zap: Unuse Array#includes
 - :fire: package-lock.json is removed
 - :hammer: package.json is updated
