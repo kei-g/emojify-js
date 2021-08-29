@@ -224,9 +224,9 @@ const reportError = (err?: unknown) => {
   }
 }
 
-process.stderr.on('errpor', () => process.exit(1))
-process.stdin.on('error', reportError)
-process.stdout.on('error', reportError)
+process.stderr.on('errpor', () => process.exit(0))
+process.stdin.on('error', () => process.exit(0))
+process.stdout.on('error', () => process.exit(0))
 
 loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
   if (err) {
