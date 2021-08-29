@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as fs from 'fs'
 import { Writable } from 'stream'
 
@@ -44,12 +45,13 @@ export function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Reco
               if (!ctx.index)
                 throw `Invalid double quote at ${i}`
               if (ctx.name) {
-                dict[ctx.name] = context.sliceOf(data, ctx.index, i)
+                const code = context.sliceOf(data, ctx.index, i)
+                dict[ctx.name] = code
                 delete ctx.name
               }
               else {
-                const buf = context.sliceOf(data, ctx.index, i)
-                ctx.name = buf.toString()
+                const name = context.sliceOf(data, ctx.index, i)
+                ctx.name = name.toString()
               }
               delete ctx.index
               break
@@ -66,7 +68,7 @@ export function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Reco
     }
     process.stderr.write('\u001b[31mNo close brace found\u001b[m\n')
   }
-  catch (error) {
+  catch (error: unknown) {
     process.stderr.write(`\u001b[31m${error}\u001b[m\n`)
   }
   return dict
@@ -74,29 +76,22 @@ export function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Reco
 
 type EmojifyContext = {
   allocBuffer: (length: number) => Buffer,
-  includes: <T>(array: T[], elem: T) => boolean,
   index: number,
-  operation: null | 'list',
+  operation?: 'list',
   sliceOf: (data: Buffer, begin?: number, end?: number) => Buffer,
 }
 
 export function createContext(argv: string[]): EmojifyContext {
   const context = {
     allocBuffer: (length: number) => Buffer.alloc(length),
-    includes: <T>(array: T[], elem: T) => array.includes(elem),
     index: 0,
-    operation: null as null | 'list',
     sliceOf: (data: Buffer, begin?: number, end?: number) =>
       data.subarray(begin, end),
-  }
+  } as EmojifyContext
   for (; context.index < argv.length; context.index++)
     switch (argv[context.index]) {
       case '--avoid-buffer-alloc':
         context.allocBuffer = (length: number) => new Buffer(length)
-        break
-      case '--avoid-includes':
-        context.includes = <T>(array: T[], elem: T) =>
-          array.some((value: T) => value === elem)
         break
       case '--avoid-subarray':
         context.sliceOf = (data: Buffer, begin?: number, end?: number) =>
@@ -154,7 +149,7 @@ export function emojify(param: EmojifyParameters): void {
             param.destination.uncork()
             i = j
           }
-          else if (isNumAlphaOr(param.context, c, [HYPHEN, UNDERSCORE]))
+          else if (isAppropriateCharAsNameOfEmoji(c))
             continue
           else
             break
@@ -177,14 +172,9 @@ export function emojify(param: EmojifyParameters): void {
   }
 }
 
-function isNumAlphaOr(context: EmojifyContext, c: number, or: number[]): boolean {
-  if (0x30 <= c && c <= 0x39)
-    return true
-  if (0x41 <= c && c <= 0x5a)
-    return true
-  if (0x61 <= c && c <= 0x7a)
-    return true
-  return context.includes(or, c)
+function isAppropriateCharAsNameOfEmoji(c: number): boolean {
+  return 0x30 <= c && c <= 0x39 || 0x61 <= c && c <= 0x7a
+    || c === HYPHEN || c === PLUS || c === UNDERSCORE
 }
 
 type LoadAssetsCallback = (err: LoadAssetsError, data: Buffer) => void
@@ -208,6 +198,7 @@ const COMMA = ','.codePointAt(0)
 const DOUBLE_QUOTE = '"'.codePointAt(0)
 const HYPHEN = '-'.codePointAt(0)
 const OPEN_BRACE = '{'.codePointAt(0)
+const PLUS = '+'.codePointAt(0)
 const UNDERSCORE = '_'.codePointAt(0)
 
 const reportError = (err?: unknown) => {
@@ -233,9 +224,9 @@ const reportError = (err?: unknown) => {
   }
 }
 
-process.stderr.on('errpor', () => process.exit(1))
-process.stdin.on('error', reportError)
-process.stdout.on('error', reportError)
+process.stderr.on('error', () => process.exit(0))
+process.stdin.on('error', () => process.exit(0))
+process.stdout.on('error', () => process.exit(0))
 
 loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
   if (err) {

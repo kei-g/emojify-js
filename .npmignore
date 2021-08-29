@@ -1,0 +1,16 @@
+**/*.ts
+**/.editorconfig
+**/.eslintrc.json
+**/.gitignore
+**/.gitmodules
+**/.mocharc.json
+**/.nyc_output/
+**/.travis.yml
+**/.vscode
+**/CODE_OF_CONDUCT.md
+**/build/
+**/coverage/
+**/node-emoji/
+**/test/
+**/tsconfig.json
+**/utils/
