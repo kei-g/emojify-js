@@ -4,7 +4,7 @@
     "name": "kei-g"
   },
   "bin": {
-    "emojify": "./bin/emojify.js"
+    "emojify": "bin/emojify.js"
   },
   "bugs": {
     "url": "https://github.com/kei-g/emojify-js/issues"
