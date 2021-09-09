@@ -55,12 +55,6 @@
   "license": "BSD-3-Clause",
   "main": "bin/emojify.js",
   "name": "@kei-g/emojify",
-  "nyc": {
-    "branches": 60,
-    "functions": 65,
-    "lines": 75,
-    "statements": 75
-  },
   "publishConfig": {
     "access": "public"
   },
