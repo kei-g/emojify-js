@@ -1,5 +1,21 @@
 # ChangeLogs
 
+## Version 1.1.5
+
+- :arrow_up: Packages for development are updated
+  - `@kei-g/chmod` is upgraded from 1.0.1 to 1.0.3
+  - `@types/chai` is upgraded from 4.2.21 to 4.2.22
+  - `@types/node` is upgraded from 16.7.5 to 16.11.1
+  - `@typescript-eslint/eslint-plugin` is upgraded from 4.29.3 to 5.1.0
+  - `@typescript-eslint/parser` is upgraded from 4.29.3 to 5.1.0
+  - `eslint` is upgraded from 7.32.0 to 8.0.1
+  - `mocha` is upgraded from 9.1.1 to 9.1.3
+  - `ts-node` is upgraded from 10.2.1 to 10.3.0
+  - `typescript` is upgraded from 4.4.2 to 4.4.4
+- :heavy_minus_sign: Unnecessary dependent module is deleted
+  - `terser` is deleted
+  - `uuid` is deleted
+
 ## Version 1.1.4
 
 - :wrench: .editorconfig is updated
