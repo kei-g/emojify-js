@@ -2,7 +2,9 @@
   "compilerOptions": {
     "charset": "utf8",
     "downlevelIteration": true,
-    "lib": [ "ES2015" ],
+    "lib": [
+      "ES2015",
+    ],
     "module": "CommonJS",
     "moduleResolution": "node",
     "newLine": "lf",
@@ -11,7 +13,7 @@
     "removeComments": true,
     "strict": true,
     "strictNullChecks": false,
-    "target": "ES6",
+    "target": "ES2015",
   },
   "files": [
     "emojify.ts",
