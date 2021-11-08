@@ -1,5 +1,10 @@
 # ChangeLogs
 
+## Version 1.1.8
+
+- :green_heart: Submodules are made to be checked out on GitHub CI
+- :hammer: The missing 'emoji.json' file is placed to publish
+
 ## Version 1.1.7
 
 - :building_construction: The migration to `esbuild` is reverted
