@@ -62,5 +62,5 @@ git config --global core.pager 'emojify | less -R'
 [npm-url]:https://npmjs.com/@kei-g/emojify
 [npmsio-url]:https://npms.io/search?q=%40kei-g%2Femojify
 [quality-image]:https://img.shields.io/npms-io/quality-score/@kei-g/emojify?logo=npm
-[travis-image]:https://app.travis-ci.com/kei-g/emojify-js.svg?branch=release&logo=travis
+[travis-image]:https://img.shields.io/travis/com/kei-g/emojify-js/main?logo=travis
 [travis-url]:https://app.travis-ci.com/github/kei-g/emojify-js
