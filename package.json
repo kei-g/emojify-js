@@ -84,5 +84,5 @@
     "start": "ts-node emojify.ts",
     "test": "run-p cover lint"
   },
-  "version": "1.1.8"
+  "version": "1.1.9"
 }
