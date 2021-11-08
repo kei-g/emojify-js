@@ -64,6 +64,9 @@
   },
   "scripts": {
     "build": "npm-run-all -p distclean lint -s build:mkdir build:emojify build:chmod",
+    "build:assets": "run-s build:assets:mkdir build:assets:copy",
+    "build:assets:copy": "ln node-emoji/lib/emoji.json assets/",
+    "build:assets:mkdir": "mkdirp assets",
     "build:chmod": "chmod +x bin/emojify.js",
     "build:emojify": "run-s build:tsc build:terse",
     "build:mkdir": "mkdirp bin",
@@ -77,7 +80,7 @@
     "distclean": "run-p clean clean:dist",
     "lint": "eslint *.ts",
     "postpublish": "run-s distclean",
-    "prepublishOnly": "run-s build",
+    "prepublishOnly": "run-s build clean:rmassets build:assets",
     "start": "ts-node emojify.ts",
     "test": "run-p cover lint"
   },
