@@ -1,5 +1,9 @@
 # ChangeLogs
 
+## Version 1.1.7
+
+- :building_construction: The migration to `esbuild` is reverted
+
 ## Version 1.1.6
 
 - :arrow_up: Packages for development are updated
