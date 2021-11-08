@@ -1,6 +1,6 @@
 branches:
   only:
-    - release
+    - main
 cache:
   directories:
     - ~/.npm
