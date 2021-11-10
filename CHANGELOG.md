@@ -1,5 +1,17 @@
 # ChangeLogs
 
+## Version 1.1.9
+
+- :memo: Badges are added
+- :green_heart: Code coverage report is made to be retained on GitHub CI
+- :memo: Logo of Travis CI is added to the badge
+- :green_heart: Node.js version is updated for GitHub CI
+- :arrow_up: Packages for development are updated
+  - `@kei-g/chmod` is upgraded from 1.0.4 to 1.0.5
+  - `@types/node` is upgraded from 16.11.6 to 16.11.7
+  - `@typescript-eslint/eslint-plugin` is upgraded from 5.3.0 to 5.3.1
+  - `@typescript-eslint/parser` is upgraded from 5.3.0 to 5.3.1
+
 ## Version 1.1.8
 
 - :green_heart: Submodules are made to be checked out on GitHub CI

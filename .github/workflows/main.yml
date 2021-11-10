@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '14.17.5', '16.13.0', '17.0.1' ]
+        node: [ '14.17.5', '16.13.0', '17.1.0' ]
     name: Test on Node.js ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v2
@@ -21,3 +21,9 @@ jobs:
         run: npm i
       - name: Test
         run: npm test
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: coverage
+          retention-days: 1
