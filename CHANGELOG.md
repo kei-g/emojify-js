@@ -1,5 +1,9 @@
 # ChangeLogs
 
+## Version 1.1.11
+
+- :bug: Path to assets is fixed
+
 ## Version 1.1.10
 
 - :green_heart: Make emojify passes the GitHub CI
