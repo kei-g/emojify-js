@@ -1,5 +1,9 @@
 # ChangeLogs
 
+## Version 1.1.13
+
+- :bug: Path to assets is fixed again
+
 ## Version 1.1.12
 
 - :bug: Path to assets is fixed again
