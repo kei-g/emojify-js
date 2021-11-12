@@ -1,5 +1,9 @@
 # ChangeLogs
 
+## Version 1.1.10
+
+- :green_heart: Make emojify passes the GitHub CI
+
 ## Version 1.1.9
 
 - :memo: Badges are added

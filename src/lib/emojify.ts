@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import * as fs from 'fs'
 import { Writable } from 'stream'
 
@@ -177,18 +176,21 @@ function isAppropriateCharAsNameOfEmoji(c: number): boolean {
     || c === HYPHEN || c === PLUS || c === UNDERSCORE
 }
 
-type LoadAssetsCallback = (err: LoadAssetsError, data: Buffer) => void
+type LoadAssetsCallback = (err: LoadAssetsError, data?: Buffer) => void
 
 export type LoadAssetsError = NodeJS.ErrnoException | null
 
 export function loadAssets(cb: LoadAssetsCallback): void {
-  const source = 'assets/emoji.json'
-  const assetPath = `${__dirname}/${source}`
-  fs.lstat(assetPath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
-    const path = err ? `../${source}` : stats.isSymbolicLink()
-      ? fs.readlinkSync(assetPath)
-      : `../${source}`
-    fs.readFile(`${__dirname}/${path}`, {}, cb)
+  const path = 'assets/emoji.json'
+  fs.lstat(path, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
+    if (err)
+      cb(err)
+    else if (stats.isSymbolicLink())
+      fs.readlink(path, {}, (err: NodeJS.ErrnoException, path: string) =>
+        err ? cb(err) : fs.readFile(`assets/${path}`, {}, cb)
+      )
+    else
+      fs.readFile(path, {}, cb)
   })
 }
 
@@ -200,55 +202,3 @@ const HYPHEN = '-'.codePointAt(0)
 const OPEN_BRACE = '{'.codePointAt(0)
 const PLUS = '+'.codePointAt(0)
 const UNDERSCORE = '_'.codePointAt(0)
-
-const reportError = (err?: unknown) => {
-  if (!err)
-    return
-  try {
-    const msg = typeof err === 'string'
-      ? err
-      : err instanceof Buffer
-        ? err.toString()
-        : err instanceof Error && err.message
-          ? err.message
-          : err instanceof Uint8Array
-            ? Buffer.from(err).toString()
-            : null
-    if (msg && typeof msg === 'string')
-      process.stderr.write(`\u001b[31m${msg}\u001b[m\n`)
-    else
-      console.error(err)
-  }
-  catch (err: unknown) {
-    process.exit(1)
-  }
-}
-
-process.stderr.on('error', () => process.exit(0))
-process.stdin.on('error', () => process.exit(0))
-process.stdout.on('error', () => process.exit(0))
-
-loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
-  if (err) {
-    reportError(err)
-    process.exit(1)
-  }
-  const context = createContext(process.argv)
-  const dict = buildDictionaryFrom(context, data)
-  if (context.operation === 'list') {
-    for (const name in dict) {
-      process.stdout.write(dict[name], reportError)
-      process.stdout.write(`\t:${name}:\n`, reportError)
-    }
-    process.exit(0)
-  }
-  process.stdin.on('data', (data: Buffer) =>
-    emojify({ context, data, destination: process.stdout, dictionary: dict })
-  )
-  process.stdin.on('close', (hadError: boolean) =>
-    process.exit(hadError ? 1 : 0)
-  )
-  process.stdin.on('end', () =>
-    process.exit(0)
-  )
-})
