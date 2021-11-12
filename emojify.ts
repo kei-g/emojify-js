@@ -177,7 +177,7 @@ function isAppropriateCharAsNameOfEmoji(c: number): boolean {
     || c === HYPHEN || c === PLUS || c === UNDERSCORE
 }
 
-type LoadAssetsCallback = (err: LoadAssetsError, data: Buffer) => void
+type LoadAssetsCallback = (err: LoadAssetsError, data?: Buffer) => void
 
 export type LoadAssetsError = NodeJS.ErrnoException | null
 
@@ -185,10 +185,10 @@ export function loadAssets(cb: LoadAssetsCallback): void {
   const path = 'assets/emoji.json'
   fs.lstat(path, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
     if (err)
-      cb(err, undefined)
+      cb(err)
     else if (stats.isSymbolicLink())
       fs.readlink(path, {}, (err: NodeJS.ErrnoException, path: string) =>
-        err ? cb(err, undefined) : fs.readFile(`assets/${path}`, {}, cb)
+        err ? cb(err) : fs.readFile(`assets/${path}`, {}, cb)
       )
     else
       fs.readFile(path, {}, cb)
