@@ -190,7 +190,7 @@ export function loadAssets(cb: LoadAssetsCallback): void {
         err ? cb(err) : fs.readFile(`assets/${path}`, {}, cb)
       )
     else
-      fs.readFile(path, {}, cb)
+      fs.readFile(`../../${path}`, {}, cb)
   })
 }
 
