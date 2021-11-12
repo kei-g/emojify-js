@@ -9,9 +9,6 @@ const options = [
 
   // for Node.js v4.5.0 or later v4.x, v5.10.0 or later
   ['--avoid-subarray'],
-
-  // for Node.js v4.0.0 or later
-  ['--avoid-buffer-alloc', '--avoid-subarray']
 ]
 
 describe('Wrapper for', () =>

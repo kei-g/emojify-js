@@ -75,7 +75,6 @@ export function buildDictionaryFrom(context: EmojifyContext, data: Buffer): Reco
 }
 
 type EmojifyContext = {
-  allocBuffer: (length: number) => Buffer,
   index: number,
   operation?: 'list',
   sliceOf: (data: Buffer, begin?: number, end?: number) => Buffer,
@@ -83,16 +82,12 @@ type EmojifyContext = {
 
 export function createContext(argv: string[]): EmojifyContext {
   const context = {
-    allocBuffer: (length: number) => Buffer.alloc(length),
     index: 0,
     sliceOf: (data: Buffer, begin?: number, end?: number) =>
       data.subarray(begin, end),
   } as EmojifyContext
   for (; context.index < argv.length; context.index++)
     switch (argv[context.index]) {
-      case '--avoid-buffer-alloc':
-        context.allocBuffer = (length: number) => new Buffer(length)
-        break
       case '--avoid-subarray':
         context.sliceOf = (data: Buffer, begin?: number, end?: number) =>
           createSlicedBuffer(context, data, begin, end)
@@ -113,7 +108,7 @@ export function createContext(argv: string[]): EmojifyContext {
 function createSlicedBuffer(context: EmojifyContext, data: Buffer, begin?: number, end?: number): Buffer {
   const offset = begin ?? 0
   const length = (end ?? data.byteLength) - offset
-  const buf = context.allocBuffer(length)
+  const buf = Buffer.alloc(length)
   for (let i = 0; i < length; i++)
     buf[i] = data[offset + i]
   return buf
