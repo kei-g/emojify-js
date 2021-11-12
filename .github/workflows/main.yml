@@ -1,7 +1,7 @@
 name: test
 on:
   push:
-    branches: [ main ]
+    branches: [ devel ]
 jobs:
   npm-test:
     runs-on: ubuntu-latest

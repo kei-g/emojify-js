@@ -55,7 +55,7 @@ git config --global core.pager 'emojify | less -R'
 
 [dependency-image]:https://img.shields.io/librariesio/release/npm/@kei-g/emojify?logo=nodedotjs
 [dependency-url]:https://npmjs.com/package/@kei-g/emojify?activeTab=dependencies
-[github-test-image]:https://img.shields.io/github/workflow/status/kei-g/emojify-js/test/main?label=test%20%26%20build&logo=github
+[github-test-image]:https://img.shields.io/github/workflow/status/kei-g/emojify-js/test/devel?label=test%20%26%20build&logo=github
 [github-url]:https://github.com/kei-g/emojify-js
 [license-image]:https://img.shields.io/github/license/kei-g/emojify-js
 [license-url]:https://opensource.org/licenses/BSD-3-Clause
@@ -65,5 +65,5 @@ git config --global core.pager 'emojify | less -R'
 [npmsio-url]:https://npms.io/search?q=%40kei-g%2Femojify
 [nyc-cov-image]:https://img.shields.io/nycrc/kei-g/emojify-js?config=.nycrc.json&label=coverage&logo=mocha
 [quality-image]:https://img.shields.io/npms-io/quality-score/@kei-g/emojify?logo=npm
-[travis-image]:https://img.shields.io/travis/com/kei-g/emojify-js/main?logo=travis
+[travis-image]:https://img.shields.io/travis/com/kei-g/emojify-js/devel?logo=travis
 [travis-url]:https://app.travis-ci.com/github/kei-g/emojify-js
