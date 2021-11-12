@@ -181,16 +181,20 @@ type LoadAssetsCallback = (err: LoadAssetsError, data?: Buffer) => void
 export type LoadAssetsError = NodeJS.ErrnoException | null
 
 export function loadAssets(cb: LoadAssetsCallback): void {
+  const basePath = __dirname.split('/').reverse().slice(2).reverse().join('/')
   const path = 'assets/emoji.json'
-  fs.lstat(path, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
+  const lpath = `${basePath}/${path}`
+  fs.lstat(lpath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
     if (err)
       cb(err)
     else if (stats.isSymbolicLink())
-      fs.readlink(path, {}, (err: NodeJS.ErrnoException, path: string) =>
-        err ? cb(err) : fs.readFile(`assets/${path}`, {}, cb)
+      fs.readlink(lpath, {}, (err: NodeJS.ErrnoException, path: string) =>
+        err ? cb(err) : fs.readFile(`${basePath}/assets/${path}`, {}, cb)
       )
-    else
-      fs.readFile(`../../${path}`, {}, cb)
+    else {
+      const basePath = __dirname.split('/').reverse().slice(1).reverse().join('/')
+      fs.readFile(`${basePath}/${path}`, {}, cb)
+    }
   })
 }
 
