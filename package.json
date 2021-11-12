@@ -53,7 +53,7 @@
     "utilities"
   ],
   "license": "BSD-3-Clause",
-  "main": "bin/emojify.js",
+  "main": "index.js",
   "name": "@kei-g/emojify",
   "publishConfig": {
     "access": "public"
@@ -89,5 +89,6 @@
     "start": "ts-node src/bin/emojify.ts",
     "test": "run-p cover lint"
   },
+  "types": "index.d.ts",
   "version": "1.1.11"
 }
