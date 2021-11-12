@@ -1,6 +1,6 @@
 {
   "all": true,
-  "branches": 64.55,
+  "branches": 78.41,
   "check-coverage": true,
   "exclude": [
     "**/*.spec.ts",
@@ -9,20 +9,20 @@
   "extension": [
     ".ts"
   ],
-  "functions": 66.67,
+  "functions": 100,
   "include": [
-    "*.ts"
+    "src/**/*.ts"
   ],
-  "lines": 74.83,
+  "lines": 83.05,
   "reporter": [
     "html",
     "text"
   ],
-  "statements": 74.19,
+  "statements": 83.74,
   "watermarks": {
-    "branches": [60, 95],
-    "functions": [60, 95],
-    "lines": [60, 95],
-    "statements": [60, 95]
+    "branches": [80, 95],
+    "functions": [80, 95],
+    "lines": [80, 95],
+    "statements": [80, 95]
   }
 }

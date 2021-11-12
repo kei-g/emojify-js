@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "charset": "utf8",
+    "declaration": true,
+    "declarationDir": ".",
     "downlevelIteration": true,
     "lib": [
       "ES2015",
@@ -15,7 +17,9 @@
     "strictNullChecks": false,
     "target": "ES2015",
   },
-  "files": [
-    "emojify.ts",
+  "exclude": [
+  ],
+  "include": [
+    "src",
   ],
 }

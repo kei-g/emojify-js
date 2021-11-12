@@ -1,4 +1,4 @@
-import { LoadAssetsError, buildDictionaryFrom, emojify, loadAssets, createContext } from '../emojify'
+import { LoadAssetsError, buildDictionaryFrom, createContext, emojify, loadAssets } from '../src'
 import { Transform } from 'stream'
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
