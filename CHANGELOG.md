@@ -1,5 +1,9 @@
 # ChangeLogs
 
+## Version 1.1.14
+
+- :white_check_mark: Threshold of code coverage is modified
+
 ## Version 1.1.13
 
 - :bug: Path to assets is fixed again
