@@ -1,7 +1,7 @@
 name: test
 on:
   push:
-    branches: [ devel ]
+    branches: [ main ]
 jobs:
   npm-test:
     runs-on: ubuntu-latest
@@ -21,10 +21,3 @@ jobs:
         run: npm i
       - name: Test
         run: npm test
-      - name: Archive code coverage results
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage-report
-          path: coverage
-          retention-days: 1
