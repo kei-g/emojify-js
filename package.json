@@ -72,7 +72,7 @@
     "build:mkdir": "mkdirp bin",
     "build:terse": "terser build/emojify.js -c -m -o bin/emojify.js --toplevel",
     "build:tsc": "tsc",
-    "clean": "run-s clean:rmassets clean:mkdir && ln -s node-emoji/lib/emoji.json assets/",
+    "clean": "run-s clean:rmassets clean:mkdir && ln -s ../node-emoji/lib/emoji.json assets/",
     "clean:dist": "rimraf .nyc_output/ bin/ build/ coverage/",
     "clean:mkdir": "mkdirp assets",
     "clean:rmassets": "rimraf assets",

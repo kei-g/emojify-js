@@ -18,7 +18,7 @@
     "html",
     "text"
   ],
-  "statements": 75,
+  "statements": 74.83,
   "watermarks": {
     "branches": [60, 95],
     "functions": [60, 95],
