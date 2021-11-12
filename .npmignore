@@ -1,9 +1,8 @@
-**/*.ts
 **/.*
 **/CODE_OF_CONDUCT.md
 **/build/
 **/coverage/
 **/node-emoji/
+**/src/
 **/test/
 **/tsconfig.json
-**/utils/
