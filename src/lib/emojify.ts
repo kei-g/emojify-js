@@ -185,10 +185,8 @@ export function loadAssets(cb: LoadAssetsCallback): void {
   const path = 'assets/emoji.json'
   const lpath = `${basePath}/${path}`
   fs.lstat(lpath, (err: NodeJS.ErrnoException, stats: fs.Stats) => {
-    if (err && err.code === 'ENOENT') {
-      const basePath = __dirname.split('/').reverse().slice(1).reverse().join('/')
-      fs.readFile(`${basePath}/${path}`, {}, cb)
-    }
+    if (err && err.code === 'ENOENT')
+      fs.readFile(`${__dirname}/${path}`, {}, cb)
     else if (stats.isSymbolicLink())
       fs.readlink(lpath, {}, (err: NodeJS.ErrnoException, path: string) =>
         err ? cb(err) : fs.readFile(`${basePath}/assets/${path}`, {}, cb)
