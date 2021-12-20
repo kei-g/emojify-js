@@ -58,10 +58,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kei-g/emojify-js.git"
-  },
+  "repository": "github:kei-g/emojify-js",
   "scripts": {
     "build": "npm-run-all -p distclean lint -s build:mkdir build:emojify build:chmod",
     "build:assets": "run-s build:assets:mkdir build:assets:copy",
