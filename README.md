@@ -1,6 +1,6 @@
 # Emojify [![licence][license-image]][license-url] [![npm][npm-image]][npm-url]
 
-[![coverage][nyc-cov-image]][github-url] [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url] [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url] [![travis][travis-image]][travis-url]
+[![coverage][nyc-cov-image]][github-url] [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url] [![GitHub CI (Build)][github-build-image]][github-build-url] [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url] [![travis][travis-image]][travis-url]
 
 Emojify - a text formatter for `:emoji:` style
 
@@ -55,6 +55,8 @@ git config --global core.pager 'emojify | less -R'
 
 [dependency-image]:https://img.shields.io/librariesio/release/npm/@kei-g/emojify?logo=nodedotjs
 [dependency-url]:https://npmjs.com/package/@kei-g/emojify?activeTab=dependencies
+[github-build-image]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml/badge.svg
+[github-build-url]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml
 [github-coverage-image]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml/badge.svg
 [github-coverage-url]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml
 [github-url]:https://github.com/kei-g/emojify-js
