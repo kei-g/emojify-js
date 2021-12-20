@@ -6,6 +6,7 @@
 - :hear_no_evil: 'CONTRIBUTING.md' is added to '.npmignore'
 - :see_no_evil: 'package-lock.json' is deleted from '.gitignore' to use cache on GitHub CI
 - :robot: Dependabot is installed
+- :arrow_up: Fetch upstream
 - :building_construction: Migration from `terser` to `esbuild`
 - :arrow_up: Packages for development are bumped
   - `@types/chai` is bumped from 4.2.22 to 4.3.0
@@ -18,6 +19,7 @@
 - :white_check_mark: Threshold of code coverage is modified
 - :package: URL of the repository is simplified
 - :green_heart: Workflows are updated
+- :bug: Wrong path to assets is fixed
 
 ## Version 1.1.13
 
