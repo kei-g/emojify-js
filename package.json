@@ -60,7 +60,7 @@
   },
   "repository": "github:kei-g/emojify-js",
   "scripts": {
-    "build": "npm-run-all -p distclean lint -s build:mkdir build:emojify build:chmod",
+    "build": "run-s build:mkdir build:emojify build:chmod",
     "build:assets": "run-s build:assets:mkdir build:assets:copy",
     "build:assets:copy": "ln node-emoji/lib/emoji.json assets/",
     "build:assets:mkdir": "mkdirp assets",
@@ -82,6 +82,7 @@
     "distclean": "run-p clean clean:dist",
     "lint": "eslint src/**/*.ts",
     "postpublish": "run-s distclean",
+    "prebuild": "run-p distclean lint",
     "prepublishOnly": "run-s build clean:rmassets build:assets",
     "start": "ts-node src/bin/emojify.ts",
     "test": "run-p cover lint"
