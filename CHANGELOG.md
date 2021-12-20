@@ -2,7 +2,22 @@
 
 ## Version 1.1.14
 
+- :hear_no_evil: '.eslintignore' is added
+- :hear_no_evil: 'CONTRIBUTING.md' is added to '.npmignore'
+- :see_no_evil: 'package-lock.json' is deleted from '.gitignore' to use cache on GitHub CI
+- :robot: Dependabot is installed
+- :building_construction: Migration from `terser` to `esbuild`
+- :arrow_up: Packages for development are bumped
+  - `@types/chai` is bumped from 4.2.22 to 4.3.0
+  - `@types/node` is bumped from 16.11.7 to 17.0.1
+  - `@typescript-eslint/eslint-plugin` is bumped from 8.2.0 to 8.5.0
+  - `@typescript-eslint/parser` is bumped from 8.2.0 to 8.5.0
+  - `eslint` is bumped from 8.2.0 to 8.5.0
+  - `typescript` is bumped from 4.4.4 to 4.5.4
+- :hammer: Scripts are updated
 - :white_check_mark: Threshold of code coverage is modified
+- :package: URL of the repository is simplified
+- :green_heart: Workflows are updated
 
 ## Version 1.1.13
 
