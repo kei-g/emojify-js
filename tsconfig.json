@@ -4,21 +4,20 @@
     "declaration": true,
     "declarationDir": ".",
     "downlevelIteration": true,
+    "emitDeclarationOnly": true,
     "lib": [
       "ES2015",
     ],
     "module": "CommonJS",
     "moduleResolution": "node",
     "newLine": "lf",
-    "outDir": "build",
     "pretty": true,
     "removeComments": true,
     "strict": true,
     "strictNullChecks": false,
     "target": "ES2015",
   },
-  "exclude": [
-  ],
+  "exclude": [],
   "include": [
     "src",
   ],
