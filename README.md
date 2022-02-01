@@ -1,6 +1,6 @@
 # Emojify [![licence][license-image]][license-url] [![npm][npm-image]][npm-url]
 
-[![coverage][nyc-cov-image]][github-url] [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url] [![GitHub CI (Build)][github-build-image]][github-build-url] [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url] [![travis][travis-image]][travis-url]
+[![coverage][nyc-cov-image]][github-url] [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url] [![GitHub CI (Build)][github-build-image]][github-build-url] [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url]
 
 Emojify - a text formatter for `:emoji:` style
 
@@ -68,5 +68,3 @@ git config --global core.pager 'emojify | less -R'
 [npmsio-url]:https://npms.io/search?q=%40kei-g%2Femojify
 [nyc-cov-image]:https://img.shields.io/nycrc/kei-g/emojify-js?config=.nycrc.json&label=coverage&logo=mocha
 [quality-image]:https://img.shields.io/npms-io/quality-score/@kei-g/emojify?logo=npm
-[travis-image]:https://img.shields.io/travis/com/kei-g/emojify-js/main?logo=travis
-[travis-url]:https://app.travis-ci.com/github/kei-g/emojify-js
