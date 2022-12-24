@@ -36,22 +36,4 @@ jobs:
 name: Coverage
 on:
   pull_request:
-    paths-ignore:
-      - '**.md'
-      - '.editorconfig'
-      - '.gitattributes'
-      - '.gitignore'
-      - '.github/dependabot.yml'
-      - '.gitmodules'
-      - '.travis.yml'
-      - 'LICENSE'
   push:
-    paths-ignore:
-      - '**.md'
-      - '.editorconfig'
-      - '.gitattributes'
-      - '.gitignore'
-      - '.github/dependabot.yml'
-      - '.gitmodules'
-      - '.travis.yml'
-      - 'LICENSE'
