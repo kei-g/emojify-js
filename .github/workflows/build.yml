@@ -39,10 +39,6 @@ on:
       - '.gitmodules'
       - 'LICENSE'
   push:
-    branches:
-      - devel
-      - main
-      - release
     paths-ignore:
       - '**.md'
       - '.editorconfig'
