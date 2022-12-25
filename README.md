@@ -1,8 +1,16 @@
 # Emojify [![licence][license-image]][license-url] [![npm][npm-image]][npm-url]
 
-[![coverage][nyc-cov-image]][github-url] [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url] [![GitHub CI (Build)][github-build-image]][github-build-url] [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url]
+[![coverage][nyc-cov-image]][github-url] [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url]
 
 Emojify - a text formatter for `:emoji:` style
+
+## CI Status
+
+| Target | Status |
+|-|-|
+| Build | [![GitHub CI (Build)][github-build-image]][github-build-url] |
+| CodeQL | [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url] |
+| Coverage | [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url] |
 
 ## Installation
 
@@ -55,10 +63,12 @@ git config --global core.pager 'emojify | less -R'
 
 [dependency-image]:https://img.shields.io/librariesio/release/npm/@kei-g/emojify?logo=nodedotjs
 [dependency-url]:https://npmjs.com/package/@kei-g/emojify?activeTab=dependencies
-[github-build-image]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml/badge.svg
-[github-build-url]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml
-[github-coverage-image]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml/badge.svg
-[github-coverage-url]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml
+[github-build-image]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml/badge.svg?query=branch%3Amain
+[github-build-url]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml?query=branch%3Amain
+[github-codeql-image]:https://github.com/kei-g/emojify-js/actions/workflows/codeql.yml/badge.svg?query=branch%3Amain
+[github-codeql-url]:https://github.com/kei-g/emojify-js/actions/workflows/codeql.yml?query=branch%3Amain
+[github-coverage-image]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml/badge.svg?query=branch%3Amain
+[github-coverage-url]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml?query=branch%3Amain
 [github-url]:https://github.com/kei-g/emojify-js
 [license-image]:https://img.shields.io/github/license/kei-g/emojify-js
 [license-url]:https://opensource.org/licenses/BSD-3-Clause
