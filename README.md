@@ -9,6 +9,7 @@ Emojify - a text formatter for `:emoji:` style
 | Target | Status |
 |-|-|
 | Build | [![GitHub CI (Build)][github-build-image]][github-build-url] |
+| CodeQL | [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url] |
 | Coverage | [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url] |
 
 ## Installation
@@ -64,6 +65,8 @@ git config --global core.pager 'emojify | less -R'
 [dependency-url]:https://npmjs.com/package/@kei-g/emojify?activeTab=dependencies
 [github-build-image]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml/badge.svg?query=branch%3Amain
 [github-build-url]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml?query=branch%3Amain
+[github-codeql-image]:https://github.com/kei-g/emojify-js/actions/workflows/codeql.yml/badge.svg?query=branch%3Amain
+[github-codeql-url]:https://github.com/kei-g/emojify-js/actions/workflows/codeql.yml?query=branch%3Amain
 [github-coverage-image]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml/badge.svg?query=branch%3Amain
 [github-coverage-url]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml?query=branch%3Amain
 [github-url]:https://github.com/kei-g/emojify-js
