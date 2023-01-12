@@ -71,7 +71,7 @@ git config --global core.pager 'emojify | less -R'
 [github-coverage-url]:https://github.com/kei-g/emojify-js/actions/workflows/coverage.yml?query=branch%3Amain
 [github-url]:https://github.com/kei-g/emojify-js
 [license-image]:https://img.shields.io/github/license/kei-g/emojify-js
-[license-url]:https://opensource.org/licenses/BSD-3-Clause
+[license-url]:https://github.com/kei-g/emojify-js/blob/main/LICENSE
 [maintenance-image]:https://img.shields.io/npms-io/maintenance-score/@kei-g/emojify?logo=npm
 [npm-image]:https://img.shields.io/npm/v/@kei-g/emojify?logo=npm
 [npm-url]:https://npmjs.com/@kei-g/emojify
