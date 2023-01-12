@@ -2,7 +2,7 @@
 
 [![coverage][nyc-cov-image]][github-url] [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url]
 
-Emojify - a text formatter for `:emoji:` style
+[`emojify`][github-url] - a text formatter for `:emoji:` style
 
 ## CI Status
 
