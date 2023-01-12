@@ -61,6 +61,18 @@ git config --global core.pager 'emojify | less -R'
   - coverage
     - failure cases of parsing emojis' dictionary
 
+## License
+
+The scripts and documentation in this project are released under the [BSD-3-Clause License][license-url]
+
+## Contributions
+
+Contributions are welcome! See [Contributor's Guide](https://github.com/kei-g/emojify-js/blob/main/CONTRIBUTING.md)
+
+### Code of Conduct
+
+:clap: Be nice. See [our code of conduct](https://github.com/kei-g/emojify-js/blob/main/CODE_OF_CONDUCT.md)
+
 [dependency-image]:https://img.shields.io/librariesio/release/npm/@kei-g/emojify?logo=nodedotjs
 [dependency-url]:https://npmjs.com/package/@kei-g/emojify?activeTab=dependencies
 [github-build-image]:https://github.com/kei-g/emojify-js/actions/workflows/build.yml/badge.svg?query=branch%3Amain
