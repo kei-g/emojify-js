@@ -6,11 +6,11 @@ Emojify - a text formatter for `:emoji:` style
 
 ## CI Status
 
-| Target | Status |
-|-|-|
-| Build | [![GitHub CI (Build)][github-build-image]][github-build-url] |
-| CodeQL | [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url] |
-| Coverage | [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url] |
+| Workflow Name | Status |
+|:-:|:-:|
+| **Build** | [![GitHub CI (Build)][github-build-image]][github-build-url] |
+| **CodeQL** | [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url] |
+| **Coverage** | [![GitHub CI (Coverage)][github-coverage-image]][github-coverage-url] |
 
 ## Installation
 
