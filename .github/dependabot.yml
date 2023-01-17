@@ -1,14 +1,14 @@
 updates:
-  - directory: "/"
-    package-ecosystem: "github-actions"
+  - directory: /
+    package-ecosystem: github-actions
     open-pull-requests-limit: 16
     schedule:
-      interval: "daily"
-    target-branch: ci
-  - directory: "/"
-    package-ecosystem: "npm"
+      interval: daily
+    target-branch: main
+  - directory: /
+    package-ecosystem: npm
     open-pull-requests-limit: 16
     schedule:
-      interval: "daily"
-    target-branch: npm-and-yarn
+      interval: daily
+    target-branch: main
 version: 2
