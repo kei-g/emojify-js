@@ -1,5 +1,26 @@
 # ChangeLogs
 
+## Version 1.1.17
+
+- :green_heart: CI
+  - Alternate implementation is added instead of `actions/create-release`
+  - Submodules are also checked out on publish the package
+  - Workflows are made to run only on 'push' or 'pull request' events for branches
+- :robot: Dependabot
+  - Target branches are reverted to 'main'
+- :memo: Documents are updated
+  - A link to the repository is added
+  - CI status badge table is modified
+  - Sections to describe the license and contributions and code of conduct are added
+  - URL of the license is modified
+- :arrow_up: Packages for development are bumped
+  - `@typescript-eslint/eslint-plugin` is bumped from 5.48.1 to 5.48.2
+  - `@typescript-eslint/parser` is bumped from 5.48.1 to 5.48.2
+  - `esbuild` is bumped from 0.16.17 to 0.17.2
+  - `eslint` is bumped from 8.31.0 to 8.32.0
+  - `mkdirp` is bumped from 1.0.4 to 2.1.1
+  - `rimraf` is bumped from 3.0.2 to 4.1.0
+
 ## Version 1.1.16
 
 - :arrow_up: Packages for development are bumped
