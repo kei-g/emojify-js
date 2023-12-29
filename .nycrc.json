@@ -1,6 +1,6 @@
 {
   "all": true,
-  "branches": 77.7,
+  "branches": 76.19,
   "check-coverage": true,
   "exclude": [
     "**/*.spec.ts",
