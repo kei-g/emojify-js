@@ -12,7 +12,7 @@
   "description": "Text formatter for `:emoji:` style",
   "devDependencies": {
     "@types/chai": "^4.3.16",
-    "@types/mocha": "^10.0.6",
+    "@types/mocha": "^10.0.7",
     "@types/node": "^20.14.8",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.14.1",
@@ -21,7 +21,7 @@
     "esbuild-register": "^3.5.0",
     "eslint": "^8.57.0",
     "mkdirp": "^3.0.1",
-    "mocha": "^10.4.0",
+    "mocha": "^10.5.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^17.0.0",
     "rimraf": "^5.0.7",
