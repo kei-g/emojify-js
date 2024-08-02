@@ -2,36 +2,19 @@
 
 import { buildDictionaryFrom, createContext, emojify, loadAssets } from '../'
 
-const reportError = (err?: unknown) => {
-  if (!err)
-    return
-  try {
-    const msg = typeof err === 'string'
-      ? err
-      : err instanceof Buffer
-        ? err.toString()
-        : err instanceof Error && err.message
-          ? err.message
-          : err instanceof Uint8Array
-            ? Buffer.from(err).toString()
-            : null
-    if (msg && typeof msg === 'string')
-      process.stderr.write(`\u001b[31m${msg}\u001b[m\n`)
-    else
-      console.error(err)
-  }
-  catch (err: unknown) {
-    process.exit(1)
-  }
+const reportError = (error?: Error) => {
+  if (error)
+    process.stderr.write(`\x1b[31m${error.message}\x1b[m\n`)
 }
 
 process.stderr.on('error', () => process.exit(0))
 process.stdin.on('error', () => process.exit(0))
 process.stdout.on('error', () => process.exit(0))
 
-loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
-  if (err) {
-    reportError(err)
+const main = async () => {
+  const data = await loadAssets()
+  if (data instanceof Error) {
+    reportError(data)
     process.exit(1)
   }
   const context = createContext(process.argv)
@@ -52,4 +35,6 @@ loadAssets((err?: NodeJS.ErrnoException, data?: Buffer) => {
   process.stdin.on('end', () =>
     process.exit(0)
   )
-})
+}
+
+main()
