@@ -1,6 +1,15 @@
 {
   "allowCompoundWords": true,
   "caseSensitive": false,
-  "version": "0.2",
-  "words": []
+  "userWords": [
+    "alloc",
+    "emojified",
+    "emojifier",
+    "emojify",
+    "parenthesised",
+    "tada",
+    "tersed",
+    "unuse"
+  ],
+  "version": "0.2"
 }
