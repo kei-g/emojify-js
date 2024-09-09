@@ -1,4 +1,4 @@
-# Emojify [![licence][license-image]][license-url] [![npm][npm-image]][npm-url]
+# Emojify [![license][license-image]][license-url] [![npm][npm-image]][npm-url]
 
 [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url]
 
