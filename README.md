@@ -1,6 +1,6 @@
 # Emojify [![licence][license-image]][license-url] [![npm][npm-image]][npm-url]
 
-[![coverage][nyc-cov-image]][github-url] [![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url]
+[![dependency][dependency-image]][dependency-url] [![maintenance][maintenance-image]][npmsio-url] [![quality][quality-image]][npmsio-url]
 
 [`emojify`][github-url] - a text formatter for `:emoji:` style
 
@@ -88,5 +88,4 @@ Contributions are welcome! See [Contributor's Guide](https://github.com/kei-g/em
 [npm-image]:https://img.shields.io/npm/v/@kei-g/emojify?logo=npm
 [npm-url]:https://npmjs.com/@kei-g/emojify
 [npmsio-url]:https://npms.io/search?q=%40kei-g%2Femojify
-[nyc-cov-image]:https://img.shields.io/nycrc/kei-g/emojify-js?config=.nycrc.json&label=coverage&logo=mocha
 [quality-image]:https://img.shields.io/npms-io/quality-score/@kei-g/emojify?logo=npm

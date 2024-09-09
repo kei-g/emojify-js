@@ -3,8 +3,10 @@
   "branches": 70.17,
   "check-coverage": true,
   "exclude": [
+    "**/*.d.ts",
     "**/*.spec.ts",
-    "**/index.ts"
+    "**/index.ts",
+    "**/src/bin"
   ],
   "extension": [
     ".ts"
