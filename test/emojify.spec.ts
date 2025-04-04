@@ -1,7 +1,7 @@
 import { buildDictionaryFrom, createContext, emojify, loadAssets } from '../src'
 import { Transform } from 'stream'
 import { describe, it } from 'mocha'
-import { expect } from 'chai'
+import assert, { equal } from 'node:assert'
 
 const options = [
   // for Node.js v6.0.0 or later
@@ -22,8 +22,8 @@ describe('Wrapper for', () =>
       describe(
         'Can load assets',
         () => {
-          it('Has no error?', () => expect(data).is.not.instanceOf(Error))
-          it('Is data instance of Buffer?', () => expect(data).instanceOf(Buffer))
+          it('Has no error?', () => assert(!(data instanceof Error)))
+          it('Is data instance of Buffer?', () => assert(data instanceof Buffer))
         }
       )
       for (const argv of options) {
@@ -37,7 +37,7 @@ describe('Wrapper for', () =>
             const dict = buildDictionaryFrom(context, data)
             it(
               'Is tada contained in dictionary?',
-              () => expect(dict['tada']).instanceOf(Buffer)
+              () => assert(dict['tada'] instanceof Buffer)
             )
             it(
               'Is ":tada:" able to be emojified?',
@@ -49,8 +49,8 @@ describe('Wrapper for', () =>
                     destination: new Transform(
                       {
                         transform(chunk: unknown) {
-                          expect(chunk).instanceOf(Buffer)
-                          expect(chunk.toString()).equals('🎉')
+                          assert(chunk instanceof Buffer)
+                          equal(chunk.toString(), '🎉')
                         }
                       }
                     ),
@@ -61,11 +61,11 @@ describe('Wrapper for', () =>
               })
             it(
               'Is "Not-Emoji" not contained in dictionary?',
-              () => expect(dict['Not-Emoji']).is.undefined
+              () => equal(dict['Not-Emoji'], undefined)
             )
             it(
               'Is empty string not contained in dictionary?',
-              () => expect(dict['']).is.undefined
+              () => equal(dict[''], undefined)
             )
             it(
               'Are ":Not-Emoji:" and "::" omitted?',
@@ -77,8 +77,8 @@ describe('Wrapper for', () =>
                     data: Buffer.from(text),
                     destination: new Transform({
                       transform(chunk: unknown) {
-                        expect(chunk).instanceOf(Buffer)
-                        expect(chunk.toString()).equals(text)
+                        assert(chunk instanceof Buffer)
+                        equal(chunk.toString(), text)
                       }
                     }
                     ),
@@ -90,7 +90,7 @@ describe('Wrapper for', () =>
             )
             it(
               'Is "100" contained in dictionary?',
-              () => expect(dict['100']).instanceOf(Buffer)
+              () => assert(dict['100'] instanceof Buffer)
             )
             it(
               'Is ":100:" able to be emojified?',
@@ -101,8 +101,8 @@ describe('Wrapper for', () =>
                     data: Buffer.from(':100:'),
                     destination: new Transform({
                       transform(chunk: unknown) {
-                        expect(chunk).instanceOf(Buffer)
-                        expect(chunk.toString()).equals('💯')
+                        assert(chunk instanceof Buffer)
+                        equal(chunk.toString(), '💯')
                       }
                     }
                     ),
