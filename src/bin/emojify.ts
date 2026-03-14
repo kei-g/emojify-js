@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { buildDictionaryFrom, createContext, emojify, loadAssets } from '../'
+import { buildDictionaryFrom, createContext, emojify, loadAssets } from '../index.ts'
 
 const reportError = (error?: Error) => {
   if (error)

@@ -1,6 +1,6 @@
-import { Writable } from 'stream'
-import { join as joinPath, sep } from 'path'
-import { lstat, readFile, readlink } from 'fs/promises'
+import type { Writable } from 'node:stream'
+import { join as joinPath, sep } from 'node:path'
+import { lstat, readFile, readlink } from 'node:fs/promises'
 
 interface EmojifyContext {
   allocBuffer: (_length: number) => Buffer
@@ -183,7 +183,7 @@ const handleOpenBrace = (ctx: LocalContext, _dict: Record<string, Buffer>, i: nu
 }
 
 const isAppropriateCharAsNameOfEmoji = (c: number) => {
-  const score = +(0x30 <= c) * 8 + +(c <= 0x39) * 4 + +(0x61 <= c) * 2 + +(c <= 0x7a)
+  const score = +(c >= 0x30) * 8 + +(c <= 0x39) * 4 + +(c >= 0x61) * 2 + +(c <= 0x7a)
   return [3, 12].includes(score) || [HYPHEN, PLUS, UNDERSCORE].includes(c)
 }
 

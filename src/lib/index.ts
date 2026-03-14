@@ -1,1 +1,1 @@
-export * from './emojify'
+export * from './emojify.ts'

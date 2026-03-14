@@ -1,5 +1,5 @@
-import { buildDictionaryFrom, createContext, emojify, loadAssets } from '../src'
-import { Transform } from 'stream'
+import { buildDictionaryFrom, createContext, emojify, loadAssets } from '../src/index.ts'
+import { Transform } from 'node:stream'
 import { describe, it } from 'mocha'
 import assert, { equal } from 'node:assert'
 
@@ -27,9 +27,9 @@ describe('Wrapper for', () =>
         }
       )
       for (const argv of options) {
-        const title = 'Test with' + (argv.length
-          ? ' options, ' + argv.join(', ')
-          : 'out options')
+        const title = `Test with${argv.length
+          ? ` options, ${argv.join(', ')}`
+          : 'out options'}`
         describe(
           title,
           () => {
@@ -37,7 +37,7 @@ describe('Wrapper for', () =>
             const dict = buildDictionaryFrom(context, data)
             it(
               'Is tada contained in dictionary?',
-              () => assert(dict['tada'] instanceof Buffer)
+              () => assert(dict.tada instanceof Buffer)
             )
             it(
               'Is ":tada:" able to be emojified?',
