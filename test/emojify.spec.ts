@@ -1,6 +1,6 @@
 import { buildDictionaryFrom, createContext, emojify, loadAssets } from '../src/index.ts'
 import { Transform } from 'node:stream'
-import { describe, it } from 'mocha'
+import { describe, it } from 'node:test'
 import assert, { equal } from 'node:assert'
 
 const options = [
@@ -41,7 +41,7 @@ describe('Wrapper for', () =>
             )
             it(
               'Is ":tada:" able to be emojified?',
-              (done: () => void) => {
+              () => {
                 emojify(
                   {
                     context,
@@ -57,7 +57,6 @@ describe('Wrapper for', () =>
                     dictionary: dict,
                   }
                 )
-                done()
               })
             it(
               'Is "Not-Emoji" not contained in dictionary?',
@@ -69,7 +68,7 @@ describe('Wrapper for', () =>
             )
             it(
               'Are ":Not-Emoji:" and "::" omitted?',
-              (done: () => void) => {
+              () => {
                 const text = 'Dictionary doesn\'t contain :Not-Emoji: and ::'
                 emojify(
                   {
@@ -85,7 +84,6 @@ describe('Wrapper for', () =>
                     dictionary: dict,
                   }
                 )
-                done()
               }
             )
             it(
@@ -94,7 +92,7 @@ describe('Wrapper for', () =>
             )
             it(
               'Is ":100:" able to be emojified?',
-              (done: () => void) => {
+              () => {
                 emojify(
                   {
                     context,
@@ -109,7 +107,6 @@ describe('Wrapper for', () =>
                     dictionary: dict,
                   }
                 )
-                done()
               }
             )
           }

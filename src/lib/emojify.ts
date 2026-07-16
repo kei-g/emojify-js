@@ -193,12 +193,12 @@ const isNodeJsErrnoException = (value: unknown, code?: string): value is NodeJS.
 }
 
 export const loadAssets = async () => {
-  const basePath = __dirname.split(sep).reverse().slice(2).reverse().join(sep)
+  const basePath = import.meta.dirname.split(sep).reverse().slice(2).reverse().join(sep)
   const path = joinPath('assets', 'emoji.json')
   const lpath = joinPath(basePath, path)
   const stats = await lstat(lpath).catch(passThrough)
   if (isNodeJsErrnoException(stats, 'ENOENT'))
-    return await readFile(joinPath(__dirname, path), {}).catch(passThrough)
+    return await readFile(joinPath(import.meta.dirname, path), {}).catch(passThrough)
   else if (stats.isSymbolicLink()) {
     const path = await readlink(lpath, {}).catch(passThrough)
     return isNodeJsErrnoException(path) ? path : await readFile(joinPath(basePath, 'assets', path), {}).catch(passThrough)
