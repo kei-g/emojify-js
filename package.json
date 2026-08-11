@@ -49,9 +49,7 @@
   "main": "index.js",
   "name": "@kei-g/emojify",
   "overrides": {
-    "c8": {
-      "yargs": "^18.0.0"
-    }
+    "brace-expansion": "^5.0.9"
   },
   "publishConfig": {
     "access": "public"
